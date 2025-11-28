@@ -1,2 +1,8 @@
 /build/
 /target/
+src/main/java/db/DBConnect.java
+src/main/java/db/TestConnect.java
+# Eclipse Configuration
+.classpath
+.project
+.settings/

@@ -11,6 +11,7 @@ import db.tbl_Order;
 import db.tbl_OrderDetail;
 import db.tbl_OrderStatus;
 import db.tbl_Provider;
+import db.tbl_RoomCategory;
 
 public class DAO {
 	Connection conn = null;
@@ -29,7 +30,30 @@ public class DAO {
 				list.add(new tbl_Menu(
 						rs.getInt(1),
 						rs.getString(2),
-						rs.getString(3)));
+						rs.getString(3),
+						rs.getString(4)));
+			}
+			
+		} catch  (Exception e){
+			
+		}
+		
+		return list;
+	}
+	public List<tbl_RoomCategory> getAllRoomcategory() {
+		List<tbl_RoomCategory> list = new ArrayList<>();
+		String query = "select * from tbl_RoomCategory";
+		try {
+			conn = new DBConnect().getConnection();
+			ps = conn.prepareStatement(query);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				list.add(new tbl_RoomCategory(
+						rs.getInt(1),
+						rs.getString(2),
+						rs.getString(3),
+						rs.getString(4),
+						rs.getBoolean(5)));
 			}
 			
 		} catch  (Exception e){
@@ -42,8 +66,8 @@ public class DAO {
 	
 	public static void main(String[] args) {
 		DAO dao = new DAO();
-		List<tbl_Menu> list = dao.getAllMenu();
-		for (tbl_Menu o : list ) {
+		List<tbl_RoomCategory> list = dao.getAllRoomcategory();
+		for (tbl_RoomCategory o : list ) {
 			System.out.println(o);
 		}
 		
@@ -53,3 +77,15 @@ public class DAO {
 	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
