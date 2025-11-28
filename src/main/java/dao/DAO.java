@@ -7,6 +7,10 @@ import java.util.List;
 import java.sql.PreparedStatement;
 import db.DBConnect;
 import db.tbl_Menu;
+import db.tbl_Order;
+import db.tbl_OrderDetail;
+import db.tbl_OrderStatus;
+import db.tbl_Provider;
 
 public class DAO {
 	Connection conn = null;
@@ -34,11 +38,18 @@ public class DAO {
 		
 		return list;
 	}
+	
+	
 	public static void main(String[] args) {
 		DAO dao = new DAO();
 		List<tbl_Menu> list = dao.getAllMenu();
 		for (tbl_Menu o : list ) {
 			System.out.println(o);
 		}
+		
 	}
+	
+	
+	
+
 }
