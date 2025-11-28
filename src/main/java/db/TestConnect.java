@@ -11,7 +11,7 @@ public class TestConnect {
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      * THÔNG TIN KẾT NỐI (Sử dụng SQL Server Authentication)  *
      * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-    private final String serverName = "DESKTOP-L7HK7RE";
+    private final String serverName = "LAPTOP-SFNTDCJC\\ANHTAI";
     private final String dbName = "Web_NoiThat";            
     private final String portNumber = "1433";            // Cổng SQL Server
     private final String instance = "";                  
