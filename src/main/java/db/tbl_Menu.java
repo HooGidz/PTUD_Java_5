@@ -12,23 +12,21 @@ public class tbl_Menu {
 	private String createBy;
 	private Date modifiedDate;
 	private String modifiedBy;
-	private boolean isAtive;
+	private boolean isActive;
 	private boolean isdropdown;
 	public tbl_Menu(int menuId, String name, String alias, String description, int position, Date createDate,
-			String createBy, Date modifiedDate, String modifiedBy, boolean isAtive, boolean isdropdown) {
-
+			String createBy, Date modifiedDate, String modifiedBy, boolean isActive, boolean isdropdown) {
 		super();
 		this.menuId = menuId;
 		this.name = name;
 		this.alias = alias;
 		this.description = description;
-
 		this.position = position;
 		this.createDate = createDate;
 		this.createBy = createBy;
 		this.modifiedDate = modifiedDate;
 		this.modifiedBy = modifiedBy;
-		this.isAtive = isAtive;
+		this.isActive = isActive;
 		this.isdropdown = isdropdown;
 	}
 	public int getMenuId() {
@@ -37,23 +35,18 @@ public class tbl_Menu {
 	public void setMenuId(int menuId) {
 		this.menuId = menuId;
 	}
-
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public String getAlias() {
 		return alias;
 	}
-
 	public void setAlias(String alias) {
 		this.alias = alias;
 	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -90,11 +83,11 @@ public class tbl_Menu {
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-	public boolean isAtive() {
-		return isAtive;
+	public boolean isActive() {
+		return isActive;
 	}
-	public void setAtive(boolean isAtive) {
-		this.isAtive = isAtive;
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 	public boolean isIsdropdown() {
 		return isdropdown;
@@ -106,8 +99,9 @@ public class tbl_Menu {
 	public String toString() {
 		return "tbl_Menu [menuId=" + menuId + ", name=" + name + ", alias=" + alias + ", description=" + description
 				+ ", position=" + position + ", createDate=" + createDate + ", createBy=" + createBy + ", modifiedDate="
-				+ modifiedDate + ", modifiedBy=" + modifiedBy + ", isAtive=" + isAtive + ", isdropdown=" + isdropdown
+				+ modifiedDate + ", modifiedBy=" + modifiedBy + ", isActive=" + isActive + ", isdropdown=" + isdropdown
 				+ "]";
 	}
+	
 
 }

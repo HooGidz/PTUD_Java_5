@@ -1,6 +1,13 @@
 // SVG Color
 @mixin template-svg-color($background) {
+<<<<<<< HEAD
   .svg-illustration svg {
     fill: $background;
   }
 }
+=======
+	.svg-illustration svg {
+		fill: $background;
+	}
+}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b

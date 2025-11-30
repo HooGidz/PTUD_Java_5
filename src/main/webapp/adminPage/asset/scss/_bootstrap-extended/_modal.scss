@@ -3,11 +3,16 @@
 
 // Modal Shadow
 .modal-content {
+<<<<<<< HEAD
   box-shadow: $modal-content-box-shadow-xs;
+=======
+	box-shadow: $modal-content-box-shadow-xs;
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b
 }
 
 // Modal Header close btn style
 .modal {
+<<<<<<< HEAD
   .btn-close {
     background-color: $white;
     border-radius: $border-radius-lg;
@@ -37,17 +42,54 @@
       margin-top: -1.25rem;
     }
   }
+=======
+	.btn-close {
+		background-color: $white;
+		border-radius: $border-radius-lg;
+		opacity: 1;
+		padding: 0.635rem;
+		box-shadow: $box-shadow-sm;
+		transition: all 0.23s ease 0.1s;
+
+		@include ltr-style {
+			transform: translate(23px, -25px);
+		}
+
+		// For hover effect of close btn
+		&:hover,
+		&:focus,
+		&:active {
+			opacity: 1;
+			outline: none;
+
+			@include ltr-style {
+				transform: translate(20px, -20px);
+			}
+		}
+	}
+
+	.modal-header {
+		.btn-close {
+			margin-top: -1.25rem;
+		}
+	}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b
 }
 
 // modal footer
 .modal-footer {
+<<<<<<< HEAD
   padding: $modal-footer-padding;
+=======
+	padding: $modal-footer-padding;
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b
 }
 
 // ! remove close button animation & shadow for .modal-dialog-scrollable, .modal-fullscreen, .modal-top modal
 .modal-dialog-scrollable,
 .modal-fullscreen,
 .modal-top {
+<<<<<<< HEAD
   .btn-close {
     box-shadow: none;
     @include ltr-style {
@@ -60,12 +102,28 @@
       }
     }
   }
+=======
+	.btn-close {
+		box-shadow: none;
+
+		@include ltr-style {
+			transform: translate(0, 0) !important;
+		}
+
+		&:hover {
+			@include ltr-style {
+				transform: translate(0, 0) !important;
+			}
+		}
+	}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b
 }
 
 // Top modals
 // *******************************************************************************
 
 .modal-top {
+<<<<<<< HEAD
   .modal-dialog {
     margin-top: 0;
   }
@@ -73,12 +131,22 @@
   .modal-content {
     @include border-top-radius(0);
   }
+=======
+	.modal-dialog {
+		margin-top: 0;
+	}
+
+	.modal-content {
+		@include border-top-radius(0);
+	}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b
 }
 
 // Responsive
 // *******************************************************************************
 
 @include media-breakpoint-down(lg) {
+<<<<<<< HEAD
   .modal-onboarding .onboarding-horizontal {
     flex-direction: column;
   }
@@ -108,3 +176,39 @@
     max-width: $modal-xl;
   }
 }
+=======
+	.modal-onboarding .onboarding-horizontal {
+		flex-direction: column;
+	}
+}
+
+@include media-breakpoint-down(md) {
+	.modal {
+		.modal-dialog:not(.modal-fullscreen) {
+			padding: 0 0.75rem;
+			padding-left: 0.75rem !important;
+		}
+
+		.carousel-control-prev,
+		.carousel-control-next {
+			display: none;
+		}
+	}
+}
+
+@include media-breakpoint-up(sm) {
+	.modal-content {
+		box-shadow: $modal-content-box-shadow-sm-up;
+	}
+
+	.modal-sm .modal-dialog {
+		max-width: $modal-sm;
+	}
+}
+
+@include media-breakpoint-up(xl) {
+	.modal-xl .modal-dialog {
+		max-width: $modal-xl;
+	}
+}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b

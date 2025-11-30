@@ -5,9 +5,19 @@
 @import '../_bootstrap-extended/include';
 
 .api-key-actions {
+<<<<<<< HEAD
   position: absolute !important;
   top: 0.75rem;
   @include app-ltr() {
     right: 0.5rem;
   }
 }
+=======
+	position: absolute !important;
+	top: 0.75rem;
+
+	@include app-ltr() {
+		right: 0.5rem;
+	}
+}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b

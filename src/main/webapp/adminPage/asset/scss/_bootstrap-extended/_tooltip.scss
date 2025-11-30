@@ -3,9 +3,18 @@
 
 // Open modal tooltip z-index
 .modal-open .tooltip {
+<<<<<<< HEAD
   z-index: $zindex-modal + 2;
 }
 
 .tooltip-inner {
   box-shadow: $tooltip-box-shadow;
 }
+=======
+	z-index: $zindex-modal + 2;
+}
+
+.tooltip-inner {
+	box-shadow: $tooltip-box-shadow;
+}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b

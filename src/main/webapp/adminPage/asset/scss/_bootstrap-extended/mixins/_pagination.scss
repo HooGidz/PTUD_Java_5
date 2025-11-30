@@ -3,6 +3,7 @@
 
 // Basic Pagination
 @mixin template-pagination-variant($parent, $background, $color: null) {
+<<<<<<< HEAD
   #{$parent} .page-item.active .page-link,
   #{$parent}.pagination li.active > a:not(.page-link) {
     &,
@@ -19,3 +20,23 @@
 @mixin template-pagination-theme($background, $color: null) {
   @include template-pagination-variant('', $background, $color);
 }
+=======
+
+	#{$parent} .page-item.active .page-link,
+	#{$parent}.pagination li.active>a:not(.page-link) {
+
+		&,
+		&:hover,
+		&:focus {
+			border-color: $background;
+			background-color: $background;
+			color: if($color, $color, color-contrast($background));
+			box-shadow: 0 0.125rem 0.25rem rgba(rgba-to-hex($background, $rgba-to-hex-bg), 0.4);
+		}
+	}
+}
+
+@mixin template-pagination-theme($background, $color: null) {
+	@include template-pagination-variant('', $background, $color);
+}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b

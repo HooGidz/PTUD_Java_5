@@ -2,11 +2,16 @@
 // *******************************************************************************
 
 .progress {
+<<<<<<< HEAD
   overflow: initial; //revet the default style for box-shadow
+=======
+	overflow: initial; //revet the default style for box-shadow
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b
 }
 
 // Progress Shadow Variant
 @each $color, $value in $theme-colors {
+<<<<<<< HEAD
   @if $color != primary {
     @include template-progress-bar-shadow-variant('.bg-#{$color}', $value);
   }
@@ -29,3 +34,29 @@
     }
   }
 }
+=======
+	@if $color !=primary {
+		@include template-progress-bar-shadow-variant('.bg-#{$color}', $value);
+	}
+}
+
+@include ltr-only {
+	.progress-bar-striped {
+		@include gradient-striped(rgba($white, 0.07), 45deg);
+	}
+
+	.progress {
+
+		//  border radius for first and last child
+		.progress-bar:last-child {
+			border-top-right-radius: $progress-border-radius;
+			border-bottom-right-radius: $progress-border-radius;
+		}
+
+		.progress-bar:first-child {
+			border-top-left-radius: $progress-border-radius;
+			border-bottom-left-radius: $progress-border-radius;
+		}
+	}
+}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b

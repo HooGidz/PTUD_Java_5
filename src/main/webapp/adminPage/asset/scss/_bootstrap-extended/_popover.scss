@@ -2,6 +2,7 @@
 // *******************************************************************************
 
 .modal-open .popover {
+<<<<<<< HEAD
   z-index: $zindex-modal + 1;
 }
 
@@ -20,10 +21,38 @@
       top: 1px;
     }
   }
+=======
+	z-index: $zindex-modal + 1;
+}
+
+.popover {
+	box-shadow: $popover-box-shadow;
+
+	.popover-arrow {
+		z-index: 1;
+	}
+
+	&.bs-popover-bottom>.popover-arrow {
+		&::after {
+			border-bottom-color: if(not $dark-style, rgba-to-hex($popover-header-bg), $popover-header-bg);
+			top: 2px;
+		}
+
+		&:before {
+			top: 1px;
+		}
+	}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b
 }
 
 // popover header font size override
 .popover-header {
+<<<<<<< HEAD
   padding: $popover-header-padding-x $popover-header-padding-x $popover-header-padding-y;
   @include font-size($popover-header-font-size);
 }
+=======
+	padding: $popover-header-padding-x $popover-header-padding-x $popover-header-padding-y;
+	@include font-size($popover-header-font-size);
+}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b

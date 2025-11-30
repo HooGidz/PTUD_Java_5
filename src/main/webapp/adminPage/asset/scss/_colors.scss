@@ -3,6 +3,7 @@
 // * Bootstrap colors (Uncomment required colors)
 // *******************************************************************************
 
+<<<<<<< HEAD
 $bootstrap-colors: () !default;
 
 @each $color-name, $color-value in $bootstrap-colors {
@@ -18,15 +19,40 @@ $bootstrap-colors: () !default;
 
   @include template-button-variant('.btn-#{$color-name}', $color-value);
   @include template-button-outline-variant('.btn-outline-#{$color-name}', $color-value);
+=======
+$bootstrap-colors: (
+	) !default;
+
+@each $color-name, $color-value in $bootstrap-colors {
+	@include bg-variant('.bg-#{$color-name}', $color-value
+);
+@include bg-label-variant('.bg-label-#{$color-name}', $color-value);
+
+@include border-label-variant('.border-label-#{$color-name}', $color-value);
+@include border-light-variant('.border-light-#{$color-name}', $color-value);
+
+.border-#{$color-name} {
+	border-color: $color-value !important;
+}
+
+@include template-button-variant('.btn-#{$color-name}', $color-value);
+@include template-button-outline-variant('.btn-outline-#{$color-name}', $color-value);
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b
 }
 
 // * Navbar
 // *******************************************************************************
 
 @each $color, $value in $theme-colors {
+<<<<<<< HEAD
   @if $color !=primary and $color !=light {
     @include template-navbar-style('.navbar.bg-#{$color}', $value);
   }
+=======
+	@if $color !=primary and $color !=light {
+		@include template-navbar-style('.navbar.bg-#{$color}', $value);
+	}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b
 }
 
 @include template-navbar-style('.navbar.bg-white', #fff, $color: $text-muted, $active-color: $body-color);
@@ -36,4 +62,8 @@ $bootstrap-colors: () !default;
 // *******************************************************************************
 
 @include template-footer-style('.footer.bg-white', #fff, $color: $text-muted, $active-color: $body-color);
+<<<<<<< HEAD
 @include template-footer-style('.footer.bg-light', $gray-100, $color: $text-muted, $active-color: $body-color);
+=======
+@include template-footer-style('.footer.bg-light', $gray-100, $color: $text-muted, $active-color: $body-color);
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b

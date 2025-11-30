@@ -2,6 +2,7 @@
 // *******************************************************************************
 
 .form-control {
+<<<<<<< HEAD
   &::placeholder {
     transition: $input-placeholder-transition;
   }
@@ -10,3 +11,14 @@
     transition: $input-placeholder-transition;
   }
 }
+=======
+	&::placeholder {
+		transition: $input-placeholder-transition;
+	}
+
+	&:focus::placeholder {
+		transform: $input-placeholder-transform;
+		transition: $input-placeholder-transition;
+	}
+}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b

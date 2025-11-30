@@ -3,7 +3,14 @@
 
 // Size
 @mixin badge-size($badge-height, $badge-width, $badge-font-size) {
+<<<<<<< HEAD
   height: $badge-height;
   width: $badge-width;
   @include font-size($badge-font-size);
 }
+=======
+	height: $badge-height;
+	width: $badge-width;
+	@include font-size($badge-font-size);
+}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b

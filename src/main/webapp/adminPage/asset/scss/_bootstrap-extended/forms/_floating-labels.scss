@@ -3,6 +3,7 @@
 
 // Display placeholder on focus
 .form-floating {
+<<<<<<< HEAD
   > .form-control:focus,
   > .form-control:not(:placeholder-shown) {
     &::placeholder {
@@ -10,3 +11,13 @@
     }
   }
 }
+=======
+
+	>.form-control:focus,
+	>.form-control:not(:placeholder-shown) {
+		&::placeholder {
+			color: $input-placeholder-color;
+		}
+	}
+}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b

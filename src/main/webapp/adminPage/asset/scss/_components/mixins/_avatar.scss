@@ -2,6 +2,7 @@
 // *******************************************************************************
 
 @mixin template-avatar-style($height, $width, $font-size, $status-indicator-position: 2px) {
+<<<<<<< HEAD
   width: $width;
   height: $height;
 
@@ -20,3 +21,23 @@
     }
   }
 }
+=======
+	width: $width;
+	height: $height;
+
+	.avatar-initial {
+		font-size: $font-size;
+	}
+
+	&.avatar-online,
+	&.avatar-offline,
+	&.avatar-away,
+	&.avatar-busy {
+		&:after {
+			width: $width * 0.2;
+			height: $height * 0.2;
+			right: $status-indicator-position;
+		}
+	}
+}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b

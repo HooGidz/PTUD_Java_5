@@ -1,9 +1,18 @@
 $enable-light-style: true;
 
 @mixin app-ltr($has-child: true) {
+<<<<<<< HEAD
   @content;
 }
 
 @mixin app-ltr-style() {
   @content;
 }
+=======
+	@content;
+}
+
+@mixin app-ltr-style() {
+	@content;
+}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b

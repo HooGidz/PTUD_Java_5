@@ -2,6 +2,7 @@
 // *******************************************************************************
 
 @mixin template-text-divider-variant($divider-color, $background) {
+<<<<<<< HEAD
   $divider-selector: if($divider-color== '', '', '#{$divider-color}');
   .divider {
     &#{$divider-selector} {
@@ -14,3 +15,19 @@
     }
   }
 }
+=======
+	$divider-selector: if($divider-color=='', '', '#{$divider-color}');
+
+	.divider {
+		&#{$divider-selector} {
+			.divider-text {
+
+				&:before,
+				&:after {
+					border-color: $background;
+				}
+			}
+		}
+	}
+}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b

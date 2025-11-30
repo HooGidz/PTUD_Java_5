@@ -171,4 +171,5 @@ module.exports = (conf, srcGlob) => {
     copy: buildCopyTask,
     all: buildAllTask
   };
+
 };

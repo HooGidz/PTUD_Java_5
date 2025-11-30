@@ -2,13 +2,20 @@
 // ********************************************************************************/
 
 @each $color, $value in $table-variants {
+<<<<<<< HEAD
   @if $color != primary {
     @include template-table-variant($color, $value);
   }
+=======
+	@if $color !=primary {
+		@include template-table-variant($color, $value);
+	}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b
 }
 
 // Style for table inside card
 .card {
+<<<<<<< HEAD
   .table {
     margin-bottom: 0;
   }
@@ -39,12 +46,54 @@
       border-bottom-width: 0;
     }
   }
+=======
+	.table {
+		margin-bottom: 0;
+	}
+}
+
+@supports (-moz-appearance: none) {
+	.table {
+		.dropdown-menu.show {
+			display: inline-table;
+		}
+	}
+}
+
+// Table heading style
+.table {
+	th {
+		text-transform: uppercase;
+		font-size: 0.75rem;
+		letter-spacing: 1px;
+	}
+
+	&:not(.table-dark) th {
+		color: $headings-color;
+	}
+}
+
+.table-border-bottom-0 {
+	tr:last-child {
+
+		td,
+		th {
+			border-bottom-width: 0;
+		}
+	}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b
 }
 
 // Dark Table icon button
 .table.table-dark .btn.btn-icon {
+<<<<<<< HEAD
   color: $table-border-color;
 }
+=======
+	color: $table-border-color;
+}
+
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b
 // .table {
 //   .btn-group {
 //     display: block;
@@ -53,6 +102,7 @@
 
 // Flush spacing of left from first column ans right from last column
 .table.table-flush-spacing {
+<<<<<<< HEAD
   thead,
   tbody {
     tr > td:first-child {
@@ -62,6 +112,19 @@
       padding-right: 0;
     }
   }
+=======
+
+	thead,
+	tbody {
+		tr>td:first-child {
+			padding-left: 0;
+		}
+
+		tr>td:last-child {
+			padding-right: 0;
+		}
+	}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b
 }
 
 // * Table inside card
@@ -72,6 +135,7 @@
 .nav-align-right,
 .nav-align-bottom,
 .nav-align-left {
+<<<<<<< HEAD
   .table:not(.table-dark),
   .table:not(.table-dark) thead:not(.table-dark) th,
   .table:not(.table-dark) tfoot:not(.table-dark) th,
@@ -79,3 +143,13 @@
     border-color: $border-inner-color;
   }
 }
+=======
+
+	.table:not(.table-dark),
+	.table:not(.table-dark) thead:not(.table-dark) th,
+	.table:not(.table-dark) tfoot:not(.table-dark) th,
+	.table:not(.table-dark) td {
+		border-color: $border-inner-color;
+	}
+}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b

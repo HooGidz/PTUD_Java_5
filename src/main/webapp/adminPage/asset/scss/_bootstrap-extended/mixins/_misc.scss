@@ -1,6 +1,7 @@
 // * Light/Dark layout
 // *******************************************************************************
 @mixin light-layout-only() {
+<<<<<<< HEAD
   @if $dark-style {
     html:not(.dark-style) {
       @content;
@@ -8,12 +9,24 @@
   } @else {
     @content;
   }
+=======
+	@if $dark-style {
+		html:not(.dark-style) {
+			@content;
+		}
+	}
+
+	@else {
+		@content;
+	}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b
 }
 
 // * RTL/LTR
 // *******************************************************************************
 
 @mixin ltr-only() {
+<<<<<<< HEAD
   @if $rtl-support {
     html:not([dir='rtl']) {
       @content;
@@ -31,12 +44,36 @@
   } @else {
     @content;
   }
+=======
+	@if $rtl-support {
+		html:not([dir='rtl']) {
+			@content;
+		}
+	}
+
+	@else {
+		@content;
+	}
+}
+
+@mixin ltr-style() {
+	@if $rtl-support {
+		html:not([dir='rtl']) & {
+			@content;
+		}
+	}
+
+	@else {
+		@content;
+	}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b
 }
 
 // * Keyframes
 // *******************************************************************************
 
 @mixin keyframes($name) {
+<<<<<<< HEAD
   @-webkit-keyframes #{$name} {
     @content;
   }
@@ -48,12 +85,26 @@
   @keyframes #{$name} {
     @content;
   }
+=======
+	@-webkit-keyframes #{$name} {
+		@content;
+	}
+
+	@-moz-keyframes #{$name} {
+		@content;
+	}
+
+	@keyframes #{$name} {
+		@content;
+	}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b
 }
 
 // * Colors
 // *******************************************************************************
 
 @mixin bg-color-variant($parent, $color, $rth-color: #000) {
+<<<<<<< HEAD
   #{$parent} {
     background-color: $color !important;
   }
@@ -75,10 +126,35 @@
 
 @mixin bg-variant($parent, $color, $rth-color: #000) {
   @include bg-color-variant($parent, $color);
+=======
+	#{$parent} {
+		background-color: $color !important;
+	}
+
+	a#{$parent} {
+
+		&:hover,
+		&:focus {
+			background-color: rgba-to-hex(rgba($color, 0.95), $background: $rth-color) !important;
+		}
+	}
+
+	//! Fix: Dropdown notification read badge bg color
+	.dropdown-notifications-item:not(.mark-as-read) {
+		.dropdown-notifications-read span {
+			background-color: $color;
+		}
+	}
+}
+
+@mixin bg-variant($parent, $color, $rth-color: #000) {
+	@include bg-color-variant($parent, $color);
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b
 }
 
 // BG Label
 @mixin bg-label-variant($parent, $background, $color: $background) {
+<<<<<<< HEAD
   $label-background: if(
     $dark-style,
     shade-color($background, $btn-label-bg-shade-amount, $card-bg),
@@ -88,10 +164,21 @@
     background-color: $label-background !important;
     color: if($color, $color, color-contrast($bg)) !important;
   }
+=======
+	$label-background: if($dark-style,
+			shade-color($background, $btn-label-bg-shade-amount, $card-bg),
+			tint-color($background, $btn-label-bg-tint-amount, $card-bg));
+
+	#{$parent} {
+		background-color: $label-background !important;
+		color: if($color, $color, color-contrast($bg)) !important;
+	}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b
 }
 
 // Border Label
 @mixin border-label-variant($parent, $background) {
+<<<<<<< HEAD
   $label-background: if(
     $dark-style,
     shade-color($background, $border-shade-amount),
@@ -100,10 +187,20 @@
   #{$parent} {
     border: 3px solid $label-background !important;
   }
+=======
+	$label-background: if($dark-style,
+			shade-color($background, $border-shade-amount),
+			tint-color($background, $border-tint-amount));
+
+	#{$parent} {
+		border: 3px solid $label-background !important;
+	}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b
 }
 
 // Border Light
 @mixin border-light-variant($parent, $background) {
+<<<<<<< HEAD
   #{$parent} {
     border: 3px solid rgba($background, 0.08);
   }
@@ -118,3 +215,20 @@
     color: shift-color($color, $link-shade-percentage) !important;
   }
 }
+=======
+	#{$parent} {
+		border: 3px solid rgba($background, 0.08);
+	}
+}
+
+@mixin text-variant($parent, $color) {
+	#{$parent} {
+		color: $color !important;
+	}
+
+	//! Fix: text-body hover color
+	.text-body[href]:hover {
+		color: shift-color($color, $link-shade-percentage) !important;
+	}
+}
+>>>>>>> fa43ef13419b93326e052a68ad170428e6c19f7b

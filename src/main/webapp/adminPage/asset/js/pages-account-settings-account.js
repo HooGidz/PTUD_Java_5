@@ -3,7 +3,6 @@
  */
 
 'use strict';
-
 document.addEventListener('DOMContentLoaded', function (e) {
   (function () {
     const deactivateAcc = document.querySelector('#formAccountDeactivation');
@@ -26,4 +25,5 @@ document.addEventListener('DOMContentLoaded', function (e) {
       };
     }
   })();
+
 });
