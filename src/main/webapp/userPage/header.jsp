@@ -4,28 +4,29 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
- <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" href="img/favicon.png">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- animate CSS -->
-    <link rel="stylesheet" href="css/animate.css">
-    <!-- owl carousel CSS -->
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <!-- font awesome CSS -->
-    <link rel="stylesheet" href="css/all.css">
-    <!-- flaticon CSS -->
-    <link rel="stylesheet" href="css/flaticon.css">
-    <link rel="stylesheet" href="css/themify-icons.css">
-    <!-- font awesome CSS -->
-    <link rel="stylesheet" href="css/magnific-popup.css">
-    <!-- swiper CSS -->
-    <link rel="stylesheet" href="css/slick.css">
-    <!-- style CSS -->
-    <link rel="stylesheet" href="css/style.css">
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Nội thất</title>
+<link rel="icon" href="/Java_5/img/favicon.png">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="/Java_5/css/bootstrap.min.css">
+<!-- animate CSS -->
+<link rel="stylesheet" href="/Java_5/css/animate.css">
+<!-- owl carousel CSS -->
+<link rel="stylesheet" href="/Java_5/css/owl.carousel.min.css">
+<!-- font awesome CSS -->
+<link rel="stylesheet" href="/Java_5/css/all.css">
+<!-- flaticon CSS -->
+<link rel="stylesheet" href="/Java_5/css/flaticon.css">
+<link rel="stylesheet" href="/Java_5/css/themify-icons.css">
+<!-- font awesome CSS -->
+<link rel="stylesheet" href="/Java_5/css/magnific-popup.css">
+<!-- swiper CSS -->
+<link rel="stylesheet" href="/Java_5/css/slick.css">
+<!-- style CSS -->
+<link rel="stylesheet" href="/Java_5/css/style.css">
 </head>
 <body>
 	<header class="main_menu home_menu">

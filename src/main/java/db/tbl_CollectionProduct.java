@@ -1,11 +1,11 @@
 package db;
 
-public class tbl_ConllectionProduct {
+public class tbl_CollectionProduct {
 
 
 	private int collectionId;
 	private int productId;
-	public tbl_ConllectionProduct(int collectionId, int productId) {
+	public tbl_CollectionProduct(int collectionId, int productId) {
 		super();
 		this.collectionId = collectionId;
 		this.productId = productId;
