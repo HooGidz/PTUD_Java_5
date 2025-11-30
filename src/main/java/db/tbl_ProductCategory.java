@@ -58,7 +58,6 @@ public class tbl_ProductCategory {
 		return "tbl_ProductCategory [categoryId=" + categoryId + ", roomCategoryId=" + roomCategoryId + ", name=" + name
 				+ ", alias=" + alias + ", description=" + description + ", isActive=" + isActive + "]";
 	}
-    
-    
+
 
 }
