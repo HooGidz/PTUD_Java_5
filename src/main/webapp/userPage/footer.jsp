@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -96,30 +95,30 @@ Copyright ©<script>document.write(new Date().getFullYear());</script>2025 All r
         </div>
     </footer>
     <!-- jquery plugins here-->
-    <script src="js/jquery-1.12.1.min.js"></script>
+    <script src="/Java_5/js/jquery-1.12.1.min.js"></script>
     <!-- popper js -->
-    <script src="js/popper.min.js"></script>
+    <script src="/Java_5/js/popper.min.js"></script>
     <!-- bootstrap js -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/Java_5/js/bootstrap.min.js"></script>
     <!-- easing js -->
-    <script src="js/jquery.magnific-popup.js"></script>
+    <script src="/Java_5/js/jquery.magnific-popup.js"></script>
     <!-- swiper js -->
-    <script src="js/swiper.min.js"></script>
+    <script src="/Java_5/js/swiper.min.js"></script>
     <!-- swiper js -->
-    <script src="js/masonry.pkgd.js"></script>
+    <script src="/Java_5/js/masonry.pkgd.js"></script>
     <!-- particles js -->
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="/Java_5/js/owl.carousel.min.js"></script>
+    <script src="/Java_5/js/jquery.nice-select.min.js"></script>
     <!-- slick js -->
-    <script src="js/slick.min.js"></script>
-    <script src="js/jquery.counterup.min.js"></script>
-    <script src="js/waypoints.min.js"></script>
-    <script src="js/contact.js"></script>
-    <script src="js/jquery.ajaxchimp.min.js"></script>
-    <script src="js/jquery.form.js"></script>
-    <script src="js/jquery.validate.min.js"></script>
-    <script src="js/mail-script.js"></script>
+    <script src="/Java_5/js/slick.min.js"></script>
+    <script src="/Java_5/js/jquery.counterup.min.js"></script>
+    <script src="/Java_5/js/waypoints.min.js"></script>
+    <script src="/Java_5/js/contact.js"></script>
+    <script src="/Java_5/js/jquery.ajaxchimp.min.js"></script>
+    <script src="/Java_5/js/jquery.form.js"></script>
+    <script src="/Java_5/js/jquery.validate.min.js"></script>
+    <script src="/Java_5/js/mail-script.js"></script>
     <!-- custom js -->
-    <script src="js/custom.js"></script>
+    <script src="/Java_5/js/custom.js"></script>
 </body>
 </html>

@@ -32,7 +32,7 @@ public class BlogControllers extends HttpServlet {
         if (action == null) {
             List<tbl_Blog> listP = dao.getAllBlogs();
             request.setAttribute("listP", listP);
-            request.getRequestDispatcher("/adminPage/blog/blog.jsp").forward(request, response);
+            request.getRequestDispatcher("/adminPage/blog/AllBlog.jsp").forward(request, response);
 
         } else if (action.equals("add")) {
         	

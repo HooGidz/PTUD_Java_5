@@ -16,6 +16,7 @@ public class tbl_Collection {
 	private boolean isBestSeller;
 	private boolean isActive;
 	private Date createDate;
+
 	public tbl_Collection(int collectionId, String name, String alias, String designer, String maker,
 			String description, String detail, String image, boolean isNew, boolean isBestSeller, boolean isActive,
 			Date createDate) {
@@ -33,78 +34,103 @@ public class tbl_Collection {
 		this.isActive = isActive;
 		this.createDate = createDate;
 	}
+
 	public int getCollectionId() {
 		return collectionId;
 	}
+
 	public void setCollectionId(int collectionId) {
 		this.collectionId = collectionId;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getAlias() {
 		return alias;
 	}
+
 	public void setAlias(String alias) {
 		this.alias = alias;
 	}
+
 	public String getDesigner() {
 		return designer;
 	}
+
 	public void setDesigner(String designer) {
 		this.designer = designer;
 	}
+
 	public String getMaker() {
 		return maker;
 	}
+
 	public void setMaker(String maker) {
 		this.maker = maker;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 	public String getDetail() {
 		return detail;
 	}
+
 	public void setDetail(String detail) {
 		this.detail = detail;
 	}
+
 	public String getImage() {
 		return image;
 	}
+
 	public void setImage(String image) {
 		this.image = image;
 	}
+
 	public boolean isNew() {
 		return isNew;
 	}
+
 	public void setNew(boolean isNew) {
 		this.isNew = isNew;
 	}
+
 	public boolean isBestSeller() {
 		return isBestSeller;
 	}
+
 	public void setBestSeller(boolean isBestSeller) {
 		this.isBestSeller = isBestSeller;
 	}
+
 	public boolean isActive() {
 		return isActive;
 	}
+
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
+
 	public Date getCreateDate() {
 		return createDate;
 	}
+
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
+
 	@Override
 	public String toString() {
 		return "tbl_Collection [collectionId=" + collectionId + ", name=" + name + ", alias=" + alias + ", designer="
@@ -112,6 +138,5 @@ public class tbl_Collection {
 				+ image + ", isNew=" + isNew + ", isBestSeller=" + isBestSeller + ", isActive=" + isActive
 				+ ", createDate=" + createDate + "]";
 	}
-
 
 }

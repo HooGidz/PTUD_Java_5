@@ -20,36 +20,47 @@ public class tbl_ProductCategory {
 		this.description = description;
 		this.isActive = isActive;
 	}
+
 	public int getCategoryId() {
 		return categoryId;
 	}
+
 	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
+
 	public int getRoomCategoryId() {
 		return roomCategoryId;
 	}
+
 	public void setRoomCategoryId(int roomCategoryId) {
 		this.roomCategoryId = roomCategoryId;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getAlias() {
 		return alias;
 	}
+
 	public void setAlias(String alias) {
 		this.alias = alias;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 	public boolean isActive() {
 		return isActive;
 	}
@@ -66,7 +77,5 @@ public class tbl_ProductCategory {
 		return "tbl_ProductCategory [categoryId=" + categoryId + ", roomCategoryId=" + roomCategoryId + ", name=" + name
 				+ ", alias=" + alias + ", description=" + description + ", isActive=" + isActive + "]";
 	}
-    
-    
 
 }
