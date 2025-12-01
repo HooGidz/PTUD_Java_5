@@ -20,6 +20,10 @@ public class tbl_Product {
     private boolean isActive;
     private int star;
     
+    public tbl_Product() {
+    	
+    }
+    
 	public tbl_Product(int productId, int providerId, int categoryId, String name, String alias, String brands,
 			String material, String dimensions, String description, String detail, String image, double price,
 			double priceSale, int quantity, boolean isNew, boolean isBestSeller, boolean isActive, int star) {
