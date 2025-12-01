@@ -1,4 +1,4 @@
-package controller;
+package user;
 
 import java.io.IOException;
 import java.util.List;
@@ -37,7 +37,7 @@ public class HomeCotroller extends HttpServlet {
 		DAO dao = new DAO();
 		List<tbl_Menu> list = dao.getAllMenu();
 		request.setAttribute("listP", list);
-		request.getRequestDispatcher("index.jsp").forward(request, response);
+		request.getRequestDispatcher("/userPage/index.jsp").forward(request, response);
 	}
 
 	/**

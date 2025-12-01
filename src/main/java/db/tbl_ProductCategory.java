@@ -7,6 +7,9 @@ public class tbl_ProductCategory {
     private String alias;
     private String description;
     private boolean isActive;
+    private int blogCount;
+    public tbl_ProductCategory() {
+    }
 	public tbl_ProductCategory(int categoryId, int roomCategoryId, String name, String alias, String description,
 			boolean isActive) {
 		super();
@@ -50,9 +53,14 @@ public class tbl_ProductCategory {
 	public boolean isActive() {
 		return isActive;
 	}
+	public void setIsActive(boolean isActive) {  // A VIẾT HOA → ĐÚNG CHUẨN!
+        this.isActive = isActive;
+    }
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
+	public int getBlogCount() { return blogCount; }
+	public void setBlogCount(int blogCount) { this.blogCount = blogCount; }
 	@Override
 	public String toString() {
 		return "tbl_ProductCategory [categoryId=" + categoryId + ", roomCategoryId=" + roomCategoryId + ", name=" + name

@@ -1,25 +1,29 @@
 package db;
+
 import java.util.Date;
-public class tbl_Blog{
-	private int blogId;
-	private int accountId;
-	private String title;
-	private String alias;
-	private int categoryId;
-	private String description;
-	private String detail;
-	private String image;
-	private String seotitle;
-	private String seodescription;
-	private String seokeywords;
-	private Date createdate;
-	private String createby;
-	private Date modifieddate;
-	private String modifiedby;
-	private boolean isactive;
+
+public class tbl_Blog {
+
+    private int blogId;              // Blog_ID
+    private int accountId;           // Account_ID
+    private String title;            // Title
+    private String alias;            // Alias
+    private int categoryId;          // Category_ID
+    private String description;      // Description
+    private String detail;           // Detail
+    private String image;            // Image
+    private String seoTitle;         // SeoTitle
+    private String seoDescription;   // SeoDescription
+    private String seoKeywords;      // SeoKeywords
+    private Date createDate;         // CreatedDate
+    private String createBy;         // CreateBy
+    private Date modifiedDate;       // ModifiedDate
+    private String modifiedBy;       // ModifiedBy
+    private boolean isActive;     
+    public tbl_Blog() {}// IsActive
 	public tbl_Blog(int blogId, int accountId, String title, String alias, int categoryId, String description,
-			String detail, String image, String seotitle, String seodescription, String seokeywords, Date createdate,
-			String createby, Date modifieddate, String modifiedby, boolean isactive) {
+			String detail, String image, String seoTitle, String seoDescription, String seoKeywords, Date createDate,
+			String createBy, Date modifiedDate, String modifiedBy, boolean isActive) {
 		super();
 		this.blogId = blogId;
 		this.accountId = accountId;
@@ -29,14 +33,14 @@ public class tbl_Blog{
 		this.description = description;
 		this.detail = detail;
 		this.image = image;
-		this.seotitle = seotitle;
-		this.seodescription = seodescription;
-		this.seokeywords = seokeywords;
-		this.createdate = createdate;
-		this.createby = createby;
-		this.modifieddate = modifieddate;
-		this.modifiedby = modifiedby;
-		this.isactive = isactive;
+		this.seoTitle = seoTitle;
+		this.seoDescription = seoDescription;
+		this.seoKeywords = seoKeywords;
+		this.createDate = createDate;
+		this.createBy = createBy;
+		this.modifiedDate = modifiedDate;
+		this.modifiedBy = modifiedBy;
+		this.isActive = isActive;
 	}
 	public int getBlogId() {
 		return blogId;
@@ -86,61 +90,62 @@ public class tbl_Blog{
 	public void setImage(String image) {
 		this.image = image;
 	}
-	public String getSeotitle() {
-		return seotitle;
+	public String getSeoTitle() {
+		return seoTitle;
 	}
-	public void setSeotitle(String seotitle) {
-		this.seotitle = seotitle;
+	public void setSeoTitle(String seoTitle) {
+		this.seoTitle = seoTitle;
 	}
-	public String getSeodescription() {
-		return seodescription;
+	public String getSeoDescription() {
+		return seoDescription;
 	}
-	public void setSeodescription(String seodescription) {
-		this.seodescription = seodescription;
+	public void setSeoDescription(String seoDescription) {
+		this.seoDescription = seoDescription;
 	}
-	public String getSeokeywords() {
-		return seokeywords;
+	public String getSeoKeywords() {
+		return seoKeywords;
 	}
-	public void setSeokeywords(String seokeywords) {
-		this.seokeywords = seokeywords;
+	public void setSeoKeywords(String seoKeywords) {
+		this.seoKeywords = seoKeywords;
 	}
-	public Date getCreatedate() {
-		return createdate;
+	public Date getCreateDate() {
+		return createDate;
 	}
-	public void setCreatedate(Date createdate) {
-		this.createdate = createdate;
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
-	public String getCreateby() {
-		return createby;
+	public String getCreateBy() {
+		return createBy;
 	}
-	public void setCreateby(String createby) {
-		this.createby = createby;
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
 	}
-	public Date getModifieddate() {
-		return modifieddate;
+	public Date getModifiedDate() {
+		return modifiedDate;
 	}
-	public void setModifieddate(Date modifieddate) {
-		this.modifieddate = modifieddate;
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
 	}
-	public String getModifiedby() {
-		return modifiedby;
+	public String getModifiedBy() {
+		return modifiedBy;
 	}
-	public void setModifiedby(String modifiedby) {
-		this.modifiedby = modifiedby;
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
 	}
-	public boolean isIsactive() {
-		return isactive;
+	public boolean isActive() {
+		return isActive;
 	}
-	public void setIsactive(boolean isactive) {
-		this.isactive = isactive;
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 	@Override
 	public String toString() {
 		return "tbl_Blog [blogId=" + blogId + ", accountId=" + accountId + ", title=" + title + ", alias=" + alias
 				+ ", categoryId=" + categoryId + ", description=" + description + ", detail=" + detail + ", image="
-				+ image + ", seotitle=" + seotitle + ", seodescription=" + seodescription + ", seokeywords="
-				+ seokeywords + ", createdate=" + createdate + ", createby=" + createby + ", modifieddate="
-				+ modifieddate + ", modifiedby=" + modifiedby + ", isactive=" + isactive + "]";
+				+ image + ", seoTitle=" + seoTitle + ", seoDescription=" + seoDescription + ", seoKeywords="
+				+ seoKeywords + ", createDate=" + createDate + ", createBy=" + createBy + ", modifiedDate="
+				+ modifiedDate + ", modifiedBy=" + modifiedBy + ", isActive=" + isActive + "]";
 	}
-	
+
+    
 }
