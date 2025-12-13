@@ -1775,4 +1775,173 @@ public class DAO {
 		}
 		return null;
 	}
+
+	public tbl_RoomCategory getRoomCategoryById(int id) {
+		String query = "SELECT * FROM tbl_RoomCategory WHERE RoomCategory_ID = ?";
+
+		try {
+			conn = new DBConnect().getConnection();
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				return new tbl_RoomCategory(rs.getInt("RoomCategory_ID"), rs.getString("Name"), rs.getString("Alias"),
+						rs.getString("Description"), rs.getBoolean("IsActive"));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public void addRoomCategory(String name, String alias, String description, boolean isActive) {
+
+		String query = "INSERT INTO tbl_RoomCategory (Name, Alias, Description, IsActive) VALUES (?, ?, ?, ?)";
+
+		try {
+			conn = new DBConnect().getConnection();
+			ps = conn.prepareStatement(query);
+
+			ps.setString(1, name);
+			ps.setString(2, alias);
+			ps.setString(3, description);
+			ps.setBoolean(4, isActive);
+
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void editRoomCategory(int roomCategoryId, String name, String alias, String description, boolean isActive) {
+
+		String query = "UPDATE tbl_RoomCategory SET Name=?, Alias=?, Description=?, IsActive=? WHERE RoomCategory_ID=?";
+
+		try {
+			conn = new DBConnect().getConnection();
+			ps = conn.prepareStatement(query);
+
+			ps.setString(1, name);
+			ps.setString(2, alias);
+			ps.setString(3, description);
+			ps.setBoolean(4, isActive);
+			ps.setInt(5, roomCategoryId);
+
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void deleteRoomCategory(String id) {
+
+		String query = "DELETE FROM tbl_RoomCategory WHERE RoomCategory_ID = ?";
+
+		try {
+			conn = new DBConnect().getConnection();
+			ps = conn.prepareStatement(query);
+			ps.setString(1, id);
+
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public List<tbl_ProductReview> getAllReviews() {
+	    List<tbl_ProductReview> list = new ArrayList<>();
+	    String query = "SELECT r.*, p.name AS ProductName " +
+	                   "FROM tbl_productreview r " +
+	                   "JOIN tbl_product p ON r.Product_ID = p.Product_ID " +
+	                   "ORDER BY r.CreatedDate DESC";
+
+	    try {
+	        conn = new DBConnect().getConnection();
+	        ps = conn.prepareStatement(query);
+	        rs = ps.executeQuery();
+
+	        while (rs.next()) {
+	            tbl_ProductReview review = new tbl_ProductReview(
+	                rs.getInt("ProductReview_ID"),
+	                rs.getInt("Product_ID"),
+	                rs.getString("Name"),
+	                rs.getString("Phone"),
+	                rs.getString("Email"),
+	                rs.getDate("CreatedDate"),
+	                rs.getString("Detail"),
+	                rs.getInt("Star"),
+	                rs.getBoolean("IsActive")
+	            );
+
+	            // Thêm tên sản phẩm vào review
+	            review.setProductName(rs.getString("ProductName"));
+
+	            list.add(review);
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return list;
+	}
+
+
+
+	public tbl_ProductReview getReviewById(int reviewId) {
+		String query = "SELECT * FROM tbl_productreview WHERE ProductReview_ID = ?";
+
+		try {
+			conn = new DBConnect().getConnection();
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, reviewId);
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				return new tbl_ProductReview(rs.getInt("ProductReview_ID"), rs.getInt("Product_ID"),
+						rs.getString("Name"), rs.getString("Phone"), rs.getString("Email"), rs.getDate("CreatedDate"),
+						rs.getString("Detail"), rs.getInt("Star"), rs.getBoolean("IsActive"));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public void editReviewStatus(int reviewId, boolean isActive) {
+	    String query = "UPDATE tbl_productreview SET IsActive = ? WHERE ProductReview_ID = ?";
+
+	    try {
+	        conn = new DBConnect().getConnection();
+	        ps = conn.prepareStatement(query);
+
+	        ps.setBoolean(1, isActive);
+	        ps.setInt(2, reviewId);
+
+	        ps.executeUpdate();
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+
+	public void deleteReview(String reviewId) {
+        String query = "DELETE FROM tbl_productreview WHERE ProductReview_ID=?";
+
+        try {
+            conn = new DBConnect().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, reviewId);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
