@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 </head>
 <body>
 	<!-- Layout wrapper -->
@@ -106,67 +107,30 @@
 				<!-- / Navbar -->
 
 				<!-- Content wrapper -->
-				<div class="p-4">
-					<h2>Quản lý bình luận</h2>
-					<a href="${pageContext.request.contextPath}/BlogCommentController?action=add">
-						<button type="button" class="btn btn-primary">Thêm mới</button>
-					</a>
-				</div>
 
-				<div class="table-responsive text-nowrap">
-					<table class="table">
-						<thead>
-							<tr>
-								<th>ID</th>
-				                <th>Tên</th>
-				                <th>Phone</th>
-				                <th>Email</th>
-				                <th>Nội dung</th>
-				                <th>Ngày tạo</th>
-				                <th>Blog ID</th>
-				                <th>Trạng thái</th>
-				                <th>Hành động</th>
-								
-							</tr>
-						</thead>
-						<tbody class="table-border-bottom-0">
-							<c:forEach var="comment" items="${listP}">
-				                <tr>
-				                    <td>${comment.commentId}</td>
-				                    <td>${comment.name}</td>
-				                    <td>${comment.phone}</td>
-				                    <td>${comment.email}</td>
-				                    <td>${comment.detail}</td>
-				                    <td><fmt:formatDate value="${comment.createddate}" pattern="dd/MM/yyyy HH:mm"/></td>
-				                    <td>${comment.blogId}</td>
-				                    <td>
-				                        <span >
-				                            ${comment.isIsactive() ? 'Hiển thị' : 'Ẩn'}
-				                        </span>
-				                    </td>
-				                    <td>
-										<div class="dropdown">
-											<button type="button"
-												class="btn p-0 dropdown-toggle hide-arrow"
-												data-bs-toggle="dropdown">
-												<i class="bx bx-dots-vertical-rounded"></i>
-											</button>
-											<div class="dropdown-menu">
-												<a href="${pageContext.request.contextPath}/BlogCommentController?action=edit&id=${comment.commentId}"
-													class="dropdown-item"> <i class="bx bx-edit-alt me-1"></i>
-													Sửa
-												</a> <a onclick="return confirm('Bạn có chắc chắn muốn xoá?')"
-												href="${pageContext.request.contextPath}/BlogCommentController?action=delete&id=${comment.commentId}"
-												class="dropdown-item"> <i class="bx bx-trash me-1"></i>
-												Xoá
-												</a>
-											</div>
-										</div>
-									</td>
-				                </tr>
-				            </c:forEach>
-						</tbody>
-					</table>
+				<div class="p-2">
+					<h1>Thêm quyền</h1>
+				</div>
+				<div style="padding: 0px 30px;">
+
+					<form action="RoleController?action=addsubmit" method="post">
+						<div class="pb-3">
+							<label for="defaultFormControlInput" class="form-label">Tên
+								quyền</label> <input name="rolename" type="text" class="form-control"
+								id="defaultFormControlInput" placeholder="Tên quyền"
+								aria-describedby="defaultFormControlHelp">
+						</div>
+						<div class="pb-3">
+							<label for="defaultFormControlInput1" class="form-label">Chức 
+							năng</label> <input name="description" type="text" class="form-control"
+								id="defaultFormControlInput1" placeholder="Mô tả"
+								aria-describedby="defaultFormControlHelp">
+						</div>
+						<button type="submit" class="btn btn-primary mt-3">Thêm
+							mới</button>
+					</form>
+					<button onclick='history.back()' class="btn btn-secondary mt-3">Quay
+						lại</button>
 				</div>
 				<!-- Content wrapper -->
 			</div>

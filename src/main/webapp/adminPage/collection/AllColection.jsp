@@ -1,119 +1,212 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Quản lý Collection</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/adminPage/asset/css/style.css" rel="stylesheet">
-    <style>
-        .table img { width: 80px; height: 50px; object-fit: cover; border-radius: 6px; }
-        .badge-active { background: #28a745; color: white; }
-        .badge-inactive { background: #dc3545; color: white; }
-    </style>
 </head>
 <body>
+	<!-- Layout wrapper -->
+	<div class="layout-wrapper layout-content-navbar">
+		<div class="layout-container">
+			<!-- Menu -->
 
-<jsp:include page="/adminPage/header.jsp" />
+			<jsp:include page="/adminPage/header.jsp" />
 
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-primary">Quản lý Collection</h2>
-        <a href="${pageContext.request.contextPath}/CollectionController?action=add" class="btn btn-primary btn-lg">
-            + Thêm Collection
-        </a>
-    </div>
+			<!-- Layout container -->
+			<div class="layout-page">
+				<!-- Navbar -->
 
-    <!-- Thông báo thành công -->
-    <c:if test="${not empty sessionScope.successMsg}">
-        <div class="alert alert-success alert-dismissible fade show">
-            ${sessionScope.successMsg}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-        <c:remove var="successMsg" scope="session"/>
-    </c:if>
+				<nav
+					class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+					id="layout-navbar">
+					<div
+						class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+						<a class="nav-item nav-link px-0 me-xl-4"
+							href="javascript:void(0)"> <i class="bx bx-menu bx-sm"></i>
+						</a>
+					</div>
 
-    <div class="card shadow">
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Danh sách Collection (${listP.size()} collection)</h5>
-        </div>
-        <div class="card-body">
-            <c:choose>
-                <c:when test="${empty listP}">
-                    <div class="text-center py-5">
-                        <p class="text-muted fs-4">Chưa có collection nào</p>
-                        <a href="${pageContext.request.contextPath}/CollectionController?action=add" class="btn btn-primary btn-lg">
-                            Thêm collection đầu tiên
-                        </a>
-                    </div>
-                </c:when>
-                <c:otherwise>
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead class="table-light">
-                                <tr>
-                                    <th width="5%">#</th>
-                                    <th width="12%">Hình ảnh</th>
-                                    <th>Tên</th>
-                                    <th>Designer</th>
-                                    <th>Maker</th>
-                                    <th width="12%">Ngày tạo</th>
-                                    <th width="10%">Trạng thái</th>
-                                    <th width="20%">Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach var="c" items="${listP}" varStatus="stt">
-                                    <tr>
-                                        <td>${stt.index + 1}</td>
-                                        <td>
-                                            <c:if test="${not empty c.image}">
-                                                <img src="${c.image}" alt="img" class="img-thumbnail">
+					<div class="navbar-nav-right d-flex align-items-center"
+						id="navbar-collapse">
+						<!-- Search -->
+						<div class="navbar-nav align-items-center">
+							<div class="nav-item d-flex align-items-center">
+								<i class="bx bx-search fs-4 lh-0"></i> <input type="text"
+									class="form-control border-0 shadow-none"
+									placeholder="Search..." aria-label="Search..." />
+							</div>
+						</div>
+						<!-- /Search -->
+
+						<ul class="navbar-nav flex-row align-items-center ms-auto">
+							<!-- Place this tag where you want the button to render. -->
+							<li class="nav-item lh-1 me-3"><a class="github-button"
+								href="https://github.com/themeselection/sneat-html-admin-template-free"
+								data-icon="octicon-star" data-size="large"
+								data-show-count="true"
+								aria-label="Star themeselection/sneat-html-admin-template-free on GitHub">Star</a>
+							</li>
+
+							<!-- User -->
+							<li class="nav-item navbar-dropdown dropdown-user dropdown">
+								<a class="nav-link dropdown-toggle hide-arrow"
+								href="javascript:void(0);" data-bs-toggle="dropdown">
+									<div class="avatar avatar-online">
+										<img src="/Java_5/adminPage/asset/img/avatars/1.png" alt
+											class="w-px-40 h-auto rounded-circle" />
+									</div>
+							</a>
+								<ul class="dropdown-menu dropdown-menu-end">
+									<li><a class="dropdown-item" href="#">
+											<div class="d-flex">
+												<div class="flex-shrink-0 me-3">
+													<div class="avatar avatar-online">
+														<img src="/Java_5/adminPage/asset/img/avatars/1.png" alt
+															class="w-px-40 h-auto rounded-circle" />
+													</div>
+												</div>
+												<div class="flex-grow-1">
+													<span class="fw-semibold d-block">John Doe</span> <small
+														class="text-muted">Admin</small>
+												</div>
+											</div>
+									</a></li>
+									<li>
+										<div class="dropdown-divider"></div>
+									</li>
+									<li><a class="dropdown-item" href="#"> <i
+											class="bx bx-user me-2"></i> <span class="align-middle">My
+												Profile</span>
+									</a></li>
+									<li><a class="dropdown-item" href="#"> <i
+											class="bx bx-cog me-2"></i> <span class="align-middle">Settings</span>
+									</a></li>
+									<li><a class="dropdown-item" href="#"> <span
+											class="d-flex align-items-center align-middle"> <i
+												class="flex-shrink-0 bx bx-credit-card me-2"></i> <span
+												class="flex-grow-1 align-middle">Billing</span> <span
+												class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
+										</span>
+									</a></li>
+									<li>
+										<div class="dropdown-divider"></div>
+									</li>
+									<li><a class="dropdown-item" href="auth-login-basic.html">
+											<i class="bx bx-power-off me-2"></i> <span
+											class="align-middle">Log Out</span>
+									</a></li>
+								</ul>
+							</li>
+							<!--/ User -->
+						</ul>
+					</div>
+				</nav>
+
+				<!-- / Navbar -->
+
+				<!-- Content wrapper -->
+				<div class="p-4">
+					<h2>Quản lý bộ sưu tập</h2>
+					<a href="${pageContext.request.contextPath}/AdminCollectionController?action=add">
+						<button type="button" class="btn btn-primary">Thêm mới</button>
+					</a>
+				</div>
+
+				<div class="table-responsive text-nowrap">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>STT</th>
+								<th width="12%">Hình ảnh</th>
+								<th>Tên</th>
+								<th>Nhà thiết kế</th>
+								<th>Người tạo ra</th>
+								<th>Ngày tạo</th>
+								<th>Trạng thái</th>
+								<th>Hành động</th>
+							</tr>
+						</thead>
+						<tbody class="table-border-bottom-0">
+							<c:forEach items="${listP}" var="b" varStatus="stt">
+								<tr>
+									<td>${stt.index + 1}</td>
+									<td><c:if test="${not empty b.image}">
+                                                <img src="${b.image}" 
+                                                     alt="img" class="img-thumbnail">
                                             </c:if>
-                                            <c:if test="${empty c.image}">
+                                            <c:if test="${empty b.image}">
                                                 <span class="text-muted">Không có ảnh</span>
                                             </c:if>
-                                        </td>
-                                        <td>
-                                            <strong>${c.name}</strong>
-                                            <br><small class="text-muted">Alias: ${c.alias}</small>
-                                        </td>
-                                        <td>${c.designer}</td>
-                                        <td>${c.maker}</td>
-                                        <td>
-                                            <fmt:formatDate value="${c.createDate}" pattern="dd/MM/yyyy"/>
-                                        </td>
-                                        <td>
-                                            <span class="badge ${c.active ? 'badge-active' : 'badge-inactive'}">
-                                                ${c.active ? 'Hiển thị' : 'Đã ẩn'}
+									</td>
+									<td>${b.name}</td>
+									<td>${b.designer}</td>
+									<td>${b.maker}</td>
+									<td>${b.createdDate}</td>
+									<td><span >
+                                                ${b.active ? 'Hiển thị' : 'Đã ẩn'}
                                             </span>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group" role="group">
-                                                <a href="${pageContext.request.contextPath}/CollectionController?action=edit&id=${c.collectionId}" 
-                                                   class="btn btn-warning btn-sm">Sửa</a>
-                                                <a href="${pageContext.request.contextPath}/CollectionController?action=toggle&id=${c.collectionId}" 
-                                                   class="btn btn-info btn-sm text-white">
-                                                    ${c.active ? 'Ẩn' : 'Hiện'}
-                                                </a>
-                                                <a href="${pageContext.request.contextPath}/CollectionController?action=delete&id=${c.collectionId}" 
-                                                   class="btn btn-danger btn-sm"
-                                                   onclick="return confirm('Xóa vĩnh viễn collection này?')">Xóa</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
-                </c:otherwise>
-            </c:choose>
-        </div>
-    </div>
-</div>
+									</td>
+									<!-- Sản phẩm mới -->
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+									<td>
+										<div class="dropdown">
+											<button type="button"
+												class="btn p-0 dropdown-toggle hide-arrow"
+												data-bs-toggle="dropdown">
+												<i class="bx bx-dots-vertical-rounded"></i>
+											</button>
+											<div class="dropdown-menu">
+												<a href="${pageContext.request.contextPath}/AdminCollectionController?action=edit&id=${b.collectionId}"
+													class="dropdown-item"> <i class="bx bx-edit-alt me-1"></i>
+													Sửa
+												</a> <a onclick="return confirm('Bạn có chắc chắn muốn xoá?')"
+												href="${pageContext.request.contextPath}/AdminCollectionController?action=delete&id=${b.collectionId}"
+												class="dropdown-item"> <i class="bx bx-trash me-1"></i>
+												Xoá
+												</a>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+				<!-- Content wrapper -->
+			</div>
+			<!-- / Layout page -->
+		</div>
+
+		<!-- Overlay -->
+		<div class="layout-overlay layout-menu-toggle"></div>
+	</div>
+	<!-- / Layout wrapper -->
+
+
+
+	<!-- Core JS -->
+	<!-- build:js assets/vendor/js/core.js -->
+	<script src="/Java_5/adminPage/asset/vendor/libs/jquery/jquery.js"></script>
+	<script src="/Java_5/adminPage/asset/vendor/libs/popper/popper.js"></script>
+	<script src="/Java_5/adminPage/asset/vendor/js/bootstrap.js"></script>
+	<script
+		src="/Java_5/adminPage/asset/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+	<script src="/Java_5/adminPage/asset/vendor/js/menu.js"></script>
+	<!-- endbuild -->
+
+	<!-- Vendors JS -->
+	<script
+		src="/Java_5/adminPage/asset/vendor/libs/apex-charts/apexcharts.js"></script>
+
+	<!-- Main JS -->
+	<script src="/Java_5/adminPage/asset/js/main.js"></script>
+
+	<!-- Page JS -->
+	<script src="/Java_5/adminPage/asset/js/dashboards-analytics.js"></script>
+
+	<!-- Place this tag in your head or just before your close body tag. -->
+	<script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
 </html>

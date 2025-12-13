@@ -107,64 +107,48 @@
 
 				<!-- Content wrapper -->
 				<div class="p-4">
-					<h2>Quản lý bình luận</h2>
-					<a href="${pageContext.request.contextPath}/BlogCommentController?action=add">
-						<button type="button" class="btn btn-primary">Thêm mới</button>
-					</a>
+					<h2>Quản lý phản hồi</h2>
 				</div>
 
 				<div class="table-responsive text-nowrap">
 					<table class="table">
 						<thead>
 							<tr>
-								<th>ID</th>
-				                <th>Tên</th>
-				                <th>Phone</th>
-				                <th>Email</th>
-				                <th>Nội dung</th>
-				                <th>Ngày tạo</th>
-				                <th>Blog ID</th>
-				                <th>Trạng thái</th>
-				                <th>Hành động</th>
-								
+								<th>STT</th>
+								<th>Tên</th>
+								<th>Số điện thoại</th>
+								<th>Email</th>
+								<th>Tin nhắn</th>
 							</tr>
 						</thead>
 						<tbody class="table-border-bottom-0">
-							<c:forEach var="comment" items="${listP}">
-				                <tr>
-				                    <td>${comment.commentId}</td>
-				                    <td>${comment.name}</td>
-				                    <td>${comment.phone}</td>
-				                    <td>${comment.email}</td>
-				                    <td>${comment.detail}</td>
-				                    <td><fmt:formatDate value="${comment.createddate}" pattern="dd/MM/yyyy HH:mm"/></td>
-				                    <td>${comment.blogId}</td>
-				                    <td>
-				                        <span >
-				                            ${comment.isIsactive() ? 'Hiển thị' : 'Ẩn'}
-				                        </span>
-				                    </td>
-				                    <td>
+							<c:forEach items="${listContact}" var="c" varStatus="status">
+								<tr>
+									<td>${status.count}</td>
+									<td><strong>${c.name}</strong></td>
+									<td>${c.phone}</td>
+									<td>${c.email}</td>
+									<td>${c.message}</td>
+									<td>
 										<div class="dropdown">
 											<button type="button"
 												class="btn p-0 dropdown-toggle hide-arrow"
 												data-bs-toggle="dropdown">
 												<i class="bx bx-dots-vertical-rounded"></i>
 											</button>
+
 											<div class="dropdown-menu">
-												<a href="${pageContext.request.contextPath}/BlogCommentController?action=edit&id=${comment.commentId}"
-													class="dropdown-item"> <i class="bx bx-edit-alt me-1"></i>
-													Sửa
+												<a href="Contact?action=edit&id=${c.contatcId}" class="dropdown-item"> <i
+													class="bx bx-edit-alt me-1"></i> Sửa
 												</a> <a onclick="return confirm('Bạn có chắc chắn muốn xoá?')"
-												href="${pageContext.request.contextPath}/BlogCommentController?action=delete&id=${comment.commentId}"
-												class="dropdown-item"> <i class="bx bx-trash me-1"></i>
-												Xoá
+													href="AccountController?action=delete&id=${acc.accountId}" class="dropdown-item"> <i
+													class="bx bx-trash me-1"></i> Xoá
 												</a>
 											</div>
 										</div>
 									</td>
-				                </tr>
-				            </c:forEach>
+								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
 				</div>

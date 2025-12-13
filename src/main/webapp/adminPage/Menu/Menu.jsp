@@ -121,6 +121,7 @@
 								<th>Tên</th>
 								<th>Mô tả</th>
 								<th>Cấp</th>
+								<th>Trạng thái</th>
 							</tr>
 						</thead>
 						<tbody class="table-border-bottom-0">
@@ -130,7 +131,12 @@
 									<td>${Menu.name }</td>
 									<td>${Menu.description}</td>
 									<td>${Menu.position }</td>
-
+									<c:if test="${Menu.active}">
+										<td><span class="badge bg-label-primary me-1">Hiển thị</span></td>
+									</c:if>
+									<c:if test="${!Menu.active}">
+										<td><span class="badge bg-label-danger me-1">Ẩn</span></td>
+									</c:if>
 									<td><div class="dropdown">
 											<button type="button"
 												class="btn p-0 dropdown-toggle hide-arrow"

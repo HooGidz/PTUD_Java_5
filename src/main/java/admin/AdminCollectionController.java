@@ -17,33 +17,26 @@ import dao.DAO;
 import db.tbl_Blog;
 import db.tbl_Collection;
 
-/**
- * Servlet implementation class CollectionController
- */
-@WebServlet("/CollectionController")
-public class CollectionController extends HttpServlet {
+
+@WebServlet("/AdminCollectionController")
+public class AdminCollectionController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final DAO dao = new DAO();
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CollectionController() {
+    public AdminCollectionController() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		request.setCharacterEncoding("UTF-8");
 		String action = request.getParameter("action");
 		 DAO dao = new DAO();
 
 	        if (action == null) {
-	            List<tbl_Collection> listP = dao.getAllCollection();
+	            List<tbl_Collection> listP = dao.getAllCollections();
 	            request.setAttribute("listP", listP);
 	            request.getRequestDispatcher("/adminPage/collection/AllColection.jsp").forward(request, response);
 
@@ -53,19 +46,19 @@ public class CollectionController extends HttpServlet {
 	        
 	        else if (action.equals("edit")) {
 	            String collectionId = request.getParameter("id");
-	            tbl_Collection collection = dao.getCollectionById(collectionId); 
+	            tbl_Collection collection = dao.getCollectionId(collectionId); 
 	            request.setAttribute("collectionDetail", collection);
 	            request.getRequestDispatcher("/adminPage/collection/editCollection.jsp").forward(request, response);
 	        }
 	        else if (action.equals("delete")) {
 	            String collectionId = request.getParameter("id");
 	            dao.deleteCollection(collectionId); 
-	            response.sendRedirect("CollectionController");
+	            response.sendRedirect("AdminCollectionController");
 	         }
 	        else if (action.equals("toggle")) {
 	            String collectionId = request.getParameter("id");
 	            dao.toggleCollection(collectionId);
-	            response.sendRedirect("CollectionController");
+	            response.sendRedirect("AdminCollectionController");
 	        }
 
 	}
@@ -79,7 +72,7 @@ public class CollectionController extends HttpServlet {
 		String action = request.getParameter("action");
 	    DAO dao = new DAO();
 
-	    if ("add".equals(action)) {
+	    if (action.equals("add")) {
 	        String name = request.getParameter("name");
 	        String alias = request.getParameter("alias");
 	        String designer = request.getParameter("designer");
@@ -87,42 +80,35 @@ public class CollectionController extends HttpServlet {
 	        String description = request.getParameter("description");
 	        String detail = request.getParameter("detail");
 	        String image = request.getParameter("image");
-	        String isNew = request.getParameter("isNew");
-	        String isBestSeller = request.getParameter("isBestSeller");
-	       // boolean isActive = "on".equals(request.getParameter("isActive"));
-	        //String image = ""; // hoặc có thể để null hoặc đường dẫn ảnh mặc định
-	        
-	        String isActive = request.getParameter("isActive");
-	       // String createdBy = request.getParameter("createby");
-	        String createdBy = "admin"; 
-	        //tbl_Collection c = new tbl_Collection(0, name, alias, designer, maker, description, detail, image,
-	               // isNew, isBestSeller, isActive, new java.util.Date());
-	        //dao.addCollection(c);
-	        dao.addCollection(name,alias,designer,maker,description,detail,image,isNew,isBestSeller,isActive,createdBy);
-	        response.sendRedirect("CollectionController");
+	        boolean isNew = parseBoolean(request.getParameter("isNew"), false);
+			boolean isBestSeller = parseBoolean(request.getParameter("isBestSeller"), false);
+			boolean isActive = parseBoolean(request.getParameter("isActive"), true);
+	        String createdDate = request.getParameter("createdDate");
+	        dao.addCollection(name,alias,designer,maker,description,detail,image,isNew,isBestSeller,isActive,createdDate);
+	        response.sendRedirect("AdminCollectionController");
 
-	    } else if ("edit".equals(action)) {
-	        int collectionId = Integer.parseInt(request.getParameter("collectionId"));
+	    } if (action.equals("edit")) {
+	    	String collectionId = request.getParameter("collectionId");
 	        String name = request.getParameter("name");
 	        String alias = request.getParameter("alias");
 	        String designer = request.getParameter("designer");
 	        String maker = request.getParameter("maker");
 	        String description = request.getParameter("description");
 	        String detail = request.getParameter("detail");
-	        //String image = request.getParameter("image");
-	        boolean isNew = "on".equals(request.getParameter("isNew"));
-	        boolean isBestSeller = "on".equals(request.getParameter("isBestSeller"));
-	        boolean isActive = "1".equals(request.getParameter("isActive"));
-	        String image = "";
+	        String image = request.getParameter("image");
+	        boolean isNew = parseBoolean(request.getParameter("isNew"), false);
+			boolean isBestSeller = parseBoolean(request.getParameter("isBestSeller"), false);
+			boolean isActive = parseBoolean(request.getParameter("isActive"), true);
+	        String createdDate = request.getParameter("createdDate");
+	        
+	        dao.editCollection(collectionId, name, alias, designer, maker, description, detail, image, isNew, isBestSeller, isActive, createdDate);
+	        response.sendRedirect("AdminCollectionController");
 
-	        tbl_Collection c = new tbl_Collection(collectionId, name, alias, designer, maker, description, detail, image,
-	                isNew, isBestSeller, isActive, new java.util.Date());
-	        dao.editCollection(c);
-	        response.sendRedirect("CollectionController");
-
-	    } else {
-	        doGet(request, response);
-	    }
+	    } 
 	}
-
+	private boolean parseBoolean(String s, boolean defaultValue) {
+		if (s == null || s.isEmpty())
+			return defaultValue;
+		return s.equals("1") || Boolean.parseBoolean(s);
+	}
 }

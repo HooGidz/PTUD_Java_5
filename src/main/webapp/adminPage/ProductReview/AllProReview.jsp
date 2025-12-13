@@ -107,44 +107,38 @@
 
 				<!-- Content wrapper -->
 				<div class="p-4">
-					<h2>Quản lý bình luận</h2>
-					<a href="${pageContext.request.contextPath}/BlogCommentController?action=add">
-						<button type="button" class="btn btn-primary">Thêm mới</button>
-					</a>
+					<h2>Quản lý đánh giá sản phẩm</h2>
+					
 				</div>
 
 				<div class="table-responsive text-nowrap">
 					<table class="table">
 						<thead>
 							<tr>
-								<th>ID</th>
-				                <th>Tên</th>
-				                <th>Phone</th>
-				                <th>Email</th>
-				                <th>Nội dung</th>
-				                <th>Ngày tạo</th>
-				                <th>Blog ID</th>
-				                <th>Trạng thái</th>
-				                <th>Hành động</th>
-								
+								<th>STT</th>
+								<th>Tên sản phẩm</th>
+								<th>Người đánh giá</th>
+								<th>Nội dung</th>
+								<th>Ngày tạo</th>
+								<th>Trạng thái</th>
+								<th>Hành động</th>
 							</tr>
 						</thead>
 						<tbody class="table-border-bottom-0">
-							<c:forEach var="comment" items="${listP}">
-				                <tr>
-				                    <td>${comment.commentId}</td>
-				                    <td>${comment.name}</td>
-				                    <td>${comment.phone}</td>
-				                    <td>${comment.email}</td>
-				                    <td>${comment.detail}</td>
-				                    <td><fmt:formatDate value="${comment.createddate}" pattern="dd/MM/yyyy HH:mm"/></td>
-				                    <td>${comment.blogId}</td>
-				                    <td>
-				                        <span >
-				                            ${comment.isIsactive() ? 'Hiển thị' : 'Ẩn'}
-				                        </span>
-				                    </td>
-				                    <td>
+							<c:forEach items="${listReview}" var="o" varStatus="status">
+								<tr>
+									<td>${status.count}</td>
+									<td><strong>${o.productName}</strong></td>
+									<td>${o.name}</td>
+									<td>${o.detail}</td>
+									<td>${o.createdDate}</td>
+									<c:if test="${o.active}">
+										<td><span class="badge bg-label-primary me-1">Hiển thị</span></td>
+									</c:if>
+									<c:if test="${!o.active}">
+										<td><span class="badge bg-label-danger me-1">Ẩn</span></td>
+									</c:if>
+									<td>
 										<div class="dropdown">
 											<button type="button"
 												class="btn p-0 dropdown-toggle hide-arrow"
@@ -152,19 +146,19 @@
 												<i class="bx bx-dots-vertical-rounded"></i>
 											</button>
 											<div class="dropdown-menu">
-												<a href="${pageContext.request.contextPath}/BlogCommentController?action=edit&id=${comment.commentId}"
-													class="dropdown-item"> <i class="bx bx-edit-alt me-1"></i>
-													Sửa
-												</a> <a onclick="return confirm('Bạn có chắc chắn muốn xoá?')"
-												href="${pageContext.request.contextPath}/BlogCommentController?action=delete&id=${comment.commentId}"
-												class="dropdown-item"> <i class="bx bx-trash me-1"></i>
-												Xoá
+												<a href="ProductReview?action=edit&id=${o.productReviewId}" class="dropdown-item">
+													<i class="bx bx-edit-alt me-1"></i> Sửa
+												</a>
+												<a onclick="return confirm('Bạn có chắc chắn muốn xoá?')"
+												   href="ProductReview?action=delete&id=${o.productReviewId}"
+												   class="dropdown-item">
+													<i class="bx bx-trash me-1"></i> Xoá
 												</a>
 											</div>
 										</div>
 									</td>
-				                </tr>
-				            </c:forEach>
+								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
 				</div>

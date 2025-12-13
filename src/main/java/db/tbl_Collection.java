@@ -15,11 +15,11 @@ public class tbl_Collection {
 	private boolean isNew;
 	private boolean isBestSeller;
 	private boolean isActive;
-	private Date createDate;
+	private Date createdDate;
 
 	public tbl_Collection(int collectionId, String name, String alias, String designer, String maker,
 			String description, String detail, String image, boolean isNew, boolean isBestSeller, boolean isActive,
-			Date createDate) {
+			Date createdDate) {
 		super();
 		this.collectionId = collectionId;
 		this.name = name;
@@ -32,7 +32,7 @@ public class tbl_Collection {
 		this.isNew = isNew;
 		this.isBestSeller = isBestSeller;
 		this.isActive = isActive;
-		this.createDate = createDate;
+		this.createdDate = createdDate;
 	}
 
 	public int getCollectionId() {
@@ -123,12 +123,12 @@ public class tbl_Collection {
 		this.isActive = isActive;
 	}
 
-	public Date getCreateDate() {
-		return createDate;
+	public Date getCreatedDate() {
+		return createdDate;
 	}
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 
 	@Override
@@ -136,7 +136,7 @@ public class tbl_Collection {
 		return "tbl_Collection [collectionId=" + collectionId + ", name=" + name + ", alias=" + alias + ", designer="
 				+ designer + ", maker=" + maker + ", description=" + description + ", detail=" + detail + ", image="
 				+ image + ", isNew=" + isNew + ", isBestSeller=" + isBestSeller + ", isActive=" + isActive
-				+ ", createDate=" + createDate + "]";
+				+ ", createdDate=" + createdDate + "]";
 	}
 
 }

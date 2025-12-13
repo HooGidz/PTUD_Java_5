@@ -108,74 +108,99 @@
 
 				<!-- Content wrapper -->
 
-<div class="p-2">
-    <h1>Sửa Thông Tin Tài Khoản</h1>
-</div>
-<div style="padding: 0px 30px;">
-    <form action="${pageContext.request.contextPath}/AccountController?action=editsubmit" method="post">
-        <input type="hidden" name="accountId" value="${accountDetail.accountId}">
-        
-        <div class="pb-3">
-            <label class="form-label">Tên đăng nhập (Username)</label> 
-            <input value="${accountDetail.username}" name="username" type="text" class="form-control" required>
-        </div>
-
-        <div class="pb-3">
-            <label class="form-label">Mật khẩu (Password)</label> 
-            <input name="password" type="password" class="form-control" placeholder="Để trống nếu không muốn thay đổi mật khẩu">
-        </div>
-
-        <div class="pb-3">
-            <label class="form-label">Họ và tên</label> 
-            <input value="${accountDetail.fullname}" name="fullName" type="text" class="form-control" required>
-        </div>
-
-        <div class="pb-3">
-            <label class="form-label">Số điện thoại</label> 
-            <input value="${accountDetail.phone}" name="phone" type="text" class="form-control">
-        </div>
-
-        <div class="pb-3">
-            <label class="form-label">Email</label> 
-            <input value="${accountDetail.email}" name="email" type="email" class="form-control">
-        </div>
-
-        <div class="pb-3">
-            <label class="form-label">Ngày sinh (Birthday)</label> 
-            <input value="${accountDetail.birthday}" name="birthday" type="date" class="form-control">
-        </div>
-        
-        <div class="pb-3">
-            <label class="form-label">Đường dẫn Avatar</label> 
-            <input value="${accountDetail.avatar}" name="avatar" type="text" class="form-control">
-        </div>
-
-        <div class="pb-3">
-            <label class="form-label">Vai trò (Role ID)</label> 
-            <input value="${accountDetail.roleId}" name="roleId" type="number" class="form-control" required>
-        </div>
-
-        <div class="pb-3">
-            <label class="form-label">Trạng thái</label>
-            <select name="isActive" class="form-select">
-                <option value="true" ${accountDetail.isactive ? 'selected' : ''}>Hoạt động</option>
-                <option value="false" ${!accountDetail.isactive ? 'selected' : ''}>Ngừng hoạt động</option>
-            </select>
-        </div>
-
-        <button type="submit" class="btn btn-primary mt-3">Cập nhật Tài khoản</button>
-    </form>
-</div>
-					<button onclick='history.back()' class="btn btn-secondary mt-3">Quay
-						lại</button>
+				<div class="p-2">
+					<h1>Sửa Thông Tin Tài Khoản</h1>
 				</div>
-				<!-- Content wrapper -->
-			</div>
-			<!-- / Layout page -->
-		</div>
+				<div style="padding: 0px 30px;">
+					<form
+						action="${pageContext.request.contextPath}/AccountController?action=editsubmit"
+						method="post">
+						<input type="hidden" name="accountId"
+							value="${accountDetail.accountId}">
 
-		<!-- Overlay -->
-		<div class="layout-overlay layout-menu-toggle"></div>
+						<div class="pb-3">
+							<label class="form-label">Tên đăng nhập (Username)</label> <input
+								value="${accountDetail.username}" name="username" type="text"
+								class="form-control" required>
+						</div>
+
+						<div class="pb-3">
+							<label class="form-label">Mật khẩu (Password)</label> <input
+								name="password" type="password" class="form-control"
+								placeholder="Để trống nếu không muốn thay đổi mật khẩu">
+						</div>
+
+						<div class="pb-3">
+							<label class="form-label">Họ và tên</label> <input
+								value="${accountDetail.fullname}" name="fullName" type="text"
+								class="form-control" required>
+						</div>
+
+						<div class="pb-3">
+							<label class="form-label">Số điện thoại</label> <input
+								value="${accountDetail.phone}" name="phone" type="text"
+								class="form-control">
+						</div>
+
+						<div class="pb-3">
+							<label class="form-label">Email</label> <input
+								value="${accountDetail.email}" name="email" type="email"
+								class="form-control">
+						</div>
+
+						<div class="pb-3">
+							<label class="form-label">Ngày sinh (Birthday)</label> <input
+								value="${accountDetail.birthday}" name="birthday" type="date"
+								class="form-control">
+						</div>
+
+						<div class="pb-3">
+							<label class="form-label">Đường dẫn Avatar</label> <input
+								value="${accountDetail.avatar}" name="avatar" type="text"
+								class="form-control">
+						</div>
+
+						<div class="pb-3">
+							<label class="form-label">Vai trò</label> <select name="roleId"
+								class="form-select">
+								<option value="1" ${accountDetail.roleId == 1 ? "selected" : ""}>Quản
+									trị viên</option>
+								<option value="2" ${accountDetail.roleId == 2 ? "selected" : ""}>Khách
+									hàng</option>
+								<option value="3" ${accountDetail.roleId == 3 ? "selected" : ""}>Nhân
+									viên</option>
+								<option value="4" ${accountDetail.roleId == 4 ? "selected" : ""}>Kế
+									toán</option>
+								<option value="5" ${accountDetail.roleId == 5 ? "selected" : ""}>Quản
+									lý kho</option>
+							</select>
+						</div>
+
+						<div class="pb-3">
+							<label class="form-label">Trạng thái</label> <select
+								name="isActive" class="form-select">
+								<option value="true" ${accountDetail.isactive ? 'selected' : ''}>Hoạt
+									động</option>
+								<option value="false"
+									${!accountDetail.isactive ? 'selected' : ''}>Ngừng
+									hoạt động</option>
+							</select>
+						</div>
+
+						<button type="submit" class="btn btn-primary mt-3">Cập
+							nhật Tài khoản</button>
+					</form>
+				</div>
+				<button onclick='history.back()' class="btn btn-secondary mt-3">Quay
+					lại</button>
+			</div>
+			<!-- Content wrapper -->
+		</div>
+		<!-- / Layout page -->
+	</div>
+
+	<!-- Overlay -->
+	<div class="layout-overlay layout-menu-toggle"></div>
 	</div>
 	<!-- / Layout wrapper -->
 

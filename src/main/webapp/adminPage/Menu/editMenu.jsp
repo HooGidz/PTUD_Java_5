@@ -144,12 +144,12 @@
                             <select name="isactive" class="form-select">
                                 <c:choose>
                                     <c:when test="${menuDetail.active}">
-                                        <option value="true">Đang bán</option>
-                                        <option value="false">Ngừng bán</option>
+                                        <option value="true">Hiện thị</option>
+                                        <option value="false">Ẩn</option>
                                     </c:when>
                                     <c:otherwise>
-                                        <option value="false">Ngừng bán</option>
-                                        <option value="true">Đang bán</option>
+                                        <option value="false">Hiện thị</option>
+                                        <option value="true">Ẩn</option>
                                     </c:otherwise>
                                 </c:choose>
                             </select>

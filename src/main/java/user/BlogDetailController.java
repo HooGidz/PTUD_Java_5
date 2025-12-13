@@ -26,53 +26,45 @@ public class BlogDetailController extends HttpServlet {
         DAO dao = new DAO();
 
         // ==================== LẤY ID ====================
-        String idStr = request.getParameter("id");
-        
-        
-        if (idStr == null || idStr.isEmpty()) {
-            
-            response.sendRedirect("BlogController");
-            return;
-        }
+        int blogId = Integer.parseInt(request.getParameter("id"));
 
-        int blogId;
-        try {
-            blogId = Integer.parseInt(idStr);
-            
-        } catch (NumberFormatException e) {
-            
-            response.sendRedirect("BlogController");
-            return;
-        }
+		tbl_Blog blog = dao.getBlogById(blogId);
+		List<tbl_BlogComment> commentList = dao.getCommentsByBlogId(blogId);
+		tbl_Blog prevBlog = dao.getPrevBlog(blogId);
+		tbl_Blog nextBlog = dao.getNextBlog(blogId);
+		List<tbl_Blog> recentPosts = dao.getRecentBlogs();
+		List<tbl_ProductCategory> listCategory = dao.getAllBlogCategories();
+		
+		request.setAttribute("blog", blog);
+		request.setAttribute("prevBlog", prevBlog);
+		request.setAttribute("nextBlog", nextBlog);
+		request.setAttribute("commentList", commentList);
+		request.setAttribute("recentPosts", recentPosts);
+		request.setAttribute("listCategory", listCategory);
+		
+		request.getRequestDispatcher("/userPage/blogsingle.jsp").forward(request, response);
 
-        // ==================== LẤY BÀI VIẾT ====================
-        tbl_Blog blog = dao.getBlogById(blogId);
-        
-        if (blog == null) {
-            System.out.println("Bài viết không tồn tại");
-            response.sendRedirect("BlogController");
-            return;
-        }
-        
-        if (!blog.isActive()) {
-         
-            response.sendRedirect("BlogController");
-            return;
-        }
-
-        // ==================== LẤY DỮ LIỆU CHO TRANG ====================
-        List<tbl_ProductCategory> listCategory = dao.getAllBlogCategories();
-        List<tbl_Blog> recentPosts = dao.getRecentBlogs();
-
-        request.setAttribute("blog", blog);
-        request.setAttribute("listCategory", listCategory);
-        request.setAttribute("recentPosts", recentPosts);
-
-        request.getRequestDispatcher("/userPage/blogsingle.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request, response);
+        //doGet(request, response);
+    	int blogId = Integer.parseInt(request.getParameter("blogId"));
+        String name = request.getParameter("name");
+        String phone = request.getParameter("phone");
+        String email = request.getParameter("email");
+        String detail = request.getParameter("detail");
+
+        tbl_BlogComment c = new tbl_BlogComment();
+        c.setBlogId(blogId);
+        c.setName(name);
+        c.setPhone(phone);
+        c.setEmail(email);
+        c.setDetail(detail);
+
+        DAO dao = new DAO();
+        dao.insertBlogComment(c);
+
+        response.sendRedirect(request.getContextPath() + "/blog-detail?id=" + blogId);
     }
 }
