@@ -12,6 +12,16 @@ public class tbl_ProductReview {
 	private String detail;
 	private int star;
 	private boolean isActive;
+	private String productName;
+
+	public String getProductName() {
+	    return productName;
+	}
+
+	public void setProductName(String productName) {
+	    this.productName = productName;
+	}
+
 
 	public tbl_ProductReview(int productReviewId, int productId, String name, String phone, String email,
 			Date createdDate, String detail, int star, boolean isActive) {

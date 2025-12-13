@@ -11,7 +11,7 @@ public class tbl_BlogComment {
 	private String detail;
 	private int blogId;
 	private boolean isactive;
-
+	public tbl_BlogComment() {};
 	public tbl_BlogComment(int commentId, String name, String phone, String email, Date createddate, String detail,
 			int blogId, boolean isactive) {
 		super();
