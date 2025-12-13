@@ -1431,15 +1431,28 @@ public class DAO {
 		try {
 			conn = new DBConnect().getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, blogId); // QUAN TRỌNG: Thêm dòng này
+			ps.setInt(1, blogId);
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
-				blog = new tbl_Blog(rs.getInt("Blog_ID"), rs.getInt("Category_ID"), rs.getString("Title"),
-						rs.getString("Content"), rs.getInt("View_Count"), rs.getString("Image"), rs.getString("Author"),
-						rs.getString("Tags"), rs.getString("Meta_Description"), rs.getString("Meta_Keywords"),
-						rs.getString("Slug"), rs.getTimestamp("Create_Date"), rs.getString("Create_By"),
-						rs.getTimestamp("Update_Date"), rs.getString("Update_By"), rs.getBoolean("IsActive"));
+				// Map theo chỉ số cột (giống các method getRecentBlogs/getAllBlogs trong DAO)
+				blog = new tbl_Blog(rs.getInt(1), // Blog_ID
+						rs.getInt(2), // Account_ID hoặc Category_ID (tùy schema)
+						rs.getString(3), // Title
+						rs.getString(4), // Alias / Description (tùy schema)
+						rs.getInt(5), // Category_ID / View_Count (tùy schema)
+						rs.getString(6), // Description
+						rs.getString(7), // Detail
+						rs.getString(8), // Image
+						rs.getString(9), // SeoTitle
+						rs.getString(10), // SeoDescription
+						rs.getString(11), // SeoKeywords
+						rs.getTimestamp(12), // CreatedDate
+						rs.getString(13), // CreatedBy
+						rs.getTimestamp(14), // ModifiedDate
+						rs.getString(15), // ModifiedBy
+						rs.getBoolean(16) // IsActive
+				);
 				System.out.println("DAO - Found blog: " + blog.getTitle());
 			} else {
 				System.out.println("DAO - No blog found with ID: " + blogId);
@@ -1449,19 +1462,140 @@ public class DAO {
 			System.out.println("Error in getBlogById: " + e.getMessage());
 			e.printStackTrace();
 		} finally {
-			// Đóng kết nối
 			try {
 				if (rs != null)
 					rs.close();
+			} catch (Exception e) {
+			}
+			try {
 				if (ps != null)
 					ps.close();
+			} catch (Exception e) {
+			}
+			try {
 				if (conn != null)
 					conn.close();
 			} catch (Exception e) {
-				e.printStackTrace();
 			}
 		}
 		return blog;
+	}
+	
+	//======================== BLOG TRƯỚC ======================
+	public tbl_Blog getPrevBlog(int blogId) {
+	    String sql = """
+	        SELECT TOP 1 * FROM tbl_Blog
+	        WHERE Blog_ID < ? AND IsActive = 1
+	        ORDER BY Blog_ID DESC
+	    """;
+
+	    try {
+	        conn = new DBConnect().getConnection();
+	        ps = conn.prepareStatement(sql);
+	        ps.setInt(1, blogId);
+	        rs = ps.executeQuery();
+
+	        if (rs.next()) {
+	            return new tbl_Blog(
+	                rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4),
+	                rs.getInt(5), rs.getString(6), rs.getString(7), rs.getString(8),
+	                rs.getString(9), rs.getString(10), rs.getString(11),
+	                rs.getTimestamp(12), rs.getString(13),
+	                rs.getTimestamp(14), rs.getString(15),
+	                rs.getBoolean(16)
+	            );
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
+
+	//======================== BLOG TIẾP THEO ======================
+	public tbl_Blog getNextBlog(int blogId) {
+	    String sql = """
+	        SELECT TOP 1 * FROM tbl_Blog
+	        WHERE Blog_ID > ? AND IsActive = 1
+	        ORDER BY Blog_ID ASC
+	    """;
+
+	    try {
+	        conn = new DBConnect().getConnection();
+	        ps = conn.prepareStatement(sql);
+	        ps.setInt(1, blogId);
+	        rs = ps.executeQuery();
+
+	        if (rs.next()) {
+	            return new tbl_Blog(
+	                rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4),
+	                rs.getInt(5), rs.getString(6), rs.getString(7), rs.getString(8),
+	                rs.getString(9), rs.getString(10), rs.getString(11),
+	                rs.getTimestamp(12), rs.getString(13),
+	                rs.getTimestamp(14), rs.getString(15),
+	                rs.getBoolean(16)
+	            );
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
+
+
+	// ======================== BÌNH LUẬN BLOG ======================
+	public List<tbl_BlogComment> getCommentsByBlogId(int blogId) {
+		List<tbl_BlogComment> list = new ArrayList<>();
+		String sql = """
+				    SELECT * FROM tbl_BlogComment
+				    WHERE Blog_ID = ? AND IsActive = 1
+				    ORDER BY CreatedDate DESC
+				""";
+
+		try {
+			conn = new DBConnect().getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, blogId);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				tbl_BlogComment c = new tbl_BlogComment();
+				c.setCommentId(rs.getInt("Comment_ID"));
+				c.setName(rs.getString("Name"));
+				c.setPhone(rs.getString("Phone"));
+				c.setEmail(rs.getString("Email"));
+				c.setCreateddate(rs.getTimestamp("CreatedDate"));
+				c.setDetail(rs.getString("Detail"));
+				c.setBlogId(rs.getInt("Blog_ID"));
+				c.setIsactive(rs.getBoolean("IsActive"));
+
+				list.add(c);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	// ======================== THÊM BÌNH LUẬN BLOG =====================
+	public void insertBlogComment(tbl_BlogComment c) {
+		String sql = """
+				    INSERT INTO tbl_BlogComment
+				    (Name, Phone, Email, Detail, Blog_ID, IsActive)
+				    VALUES (?, ?, ?, ?, ?, 1)
+				""";
+
+		try {
+			conn = new DBConnect().getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, c.getName());
+			ps.setString(2, c.getPhone());
+			ps.setString(3, c.getEmail());
+			ps.setString(4, c.getDetail());
+			ps.setInt(5, c.getBlogId());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	// ===================ADMIN====================//
@@ -1632,12 +1766,53 @@ public class DAO {
 	}
 
 	// ===================COLLECTION=================//
+	public List<tbl_Collection> getAllCollections() {
+		List<tbl_Collection> list = new ArrayList<>();
+		String sql = "select * from tbl_Collection";
+		try {
+			conn = new DBConnect().getConnection();
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				list.add(new tbl_Collection(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+						rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getBoolean(9),
+						rs.getBoolean(10), rs.getBoolean(11), rs.getDate(12)));
+			}
 
-	public tbl_Collection getCollectionById(String collectionId) {
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} finally {
+			// Đóng kết nối và các tài nguyên để tránh rò rỉ hoặc ngắt giữa chừng khi có lỗi
+			try {
+				if (rs != null)
+					rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			try {
+				if (ps != null)
+					ps.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+
+	}
+
+	public tbl_Collection getCollectionId(String collectionId) {
 		String query = "select * from tbl_Collection where Collection_ID = ?";
 		try {
 			conn = new DBConnect().getConnection();
 			ps = conn.prepareStatement(query);
+			ps.setString(1, collectionId);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				return new tbl_Collection(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
@@ -1653,11 +1828,10 @@ public class DAO {
 	}
 
 	public void addCollection(String name, String alias, String designer, String maker, String description,
-			String detail, String image, String isNew, String isBestSeller, String createdBy, String isActive) {
+			String detail, String image, boolean isNew, boolean isBestSeller, boolean isActive, String createdDate) {
 
 		String query = "INSERT INTO tbl_Collection " + "(Name, Alias, Designer, Maker, Description, Detail, Image, "
-				+ "IsNew, IsBestSeller, IsActive, CreateDate, CreatedBy) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "IsNew, IsBestSeller, IsActive, CreatedDate) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		try {
 			conn = new DBConnect().getConnection();
@@ -1671,41 +1845,56 @@ public class DAO {
 			ps.setString(5, description);
 			ps.setString(6, detail);
 			ps.setString(7, image);
-			ps.setString(8, isNew);
-			ps.setString(9, isBestSeller);
-			ps.setString(10, isActive);
-			ps.setString(11, createdBy);
+			ps.setBoolean(8, isNew);
+			ps.setBoolean(9, isBestSeller);
+			ps.setBoolean(10, isActive);
+			ps.setString(11, createdDate);
 
 			ps.executeUpdate();
 
 		} catch (Exception e) {
 
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
-	public void editCollection(tbl_Collection c) {
+	public void editCollection(String collectionId, String name, String alias, String designer, String maker,
+			String description, String detail, String image, boolean isNew, boolean isbestSeller, boolean isactive,
+			String createdDate) {
 		String query = "UPDATE tbl_Collection SET "
 				+ "Name=?, Alias=?, Designer=?, Maker=?, Description=?, Detail=?, Image=?, "
-				+ "IsNew=?, IsBestSeller=?, IsActive=? " + "WHERE Collection_ID = ?";
+				+ "IsNew=?, IsBestSeller=?, IsActive=?, CreatedDate=? " + "WHERE Collection_ID = ?";
 
 		try {
 			conn = new DBConnect().getConnection();
 			ps = conn.prepareStatement(query);
 
-			ps.setString(1, c.getName());
-			ps.setString(2, c.getAlias());
-			ps.setString(3, c.getDesigner());
-			ps.setString(4, c.getMaker());
-			ps.setString(5, c.getDescription());
-			ps.setString(6, c.getDetail());
-			ps.setString(7, c.getImage());
-			ps.setBoolean(8, c.isNew());
-			ps.setBoolean(9, c.isBestSeller());
-			ps.setBoolean(10, c.isActive());
-			ps.setInt(11, c.getCollectionId());
+			ps.setString(1, name);
+			ps.setString(2, alias);
+			ps.setString(3, designer);
+			ps.setString(4, maker);
+			ps.setString(5, description);
+			ps.setString(6, detail);
+			ps.setString(7, image);
+			ps.setBoolean(8, isNew);
+			ps.setBoolean(9, isbestSeller);
+			ps.setBoolean(10, isactive);
+			ps.setString(11, createdDate);
+			ps.setString(12, collectionId);
 
 			ps.executeUpdate();
-			System.out.println("Sửa thành công Collection ID: " + c.getCollectionId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1760,7 +1949,7 @@ public class DAO {
 	}
 
 	public tbl_BlogComment getBlogCommentById(String commentId) {
-		String query = "select * from tbl_BlogComment where BlogComment_ID = ?";
+		String query = "select * from tbl_BlogComment where Comment_ID = ?";
 		try {
 			conn = new DBConnect().getConnection();
 			ps = conn.prepareStatement(query);
@@ -1944,4 +2133,66 @@ public class DAO {
             e.printStackTrace();
         }
     }
+
+	public void addBlogComment(String name, String phone, String email, String createddate, String detail,
+			String blogId, String isActive) {
+
+		String query = "INSERT INTO tbl_BlogComment (Name, Phone, Email, CreatedDate, Detail, Blog_ID, IsActive) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+		try {
+			conn = new DBConnect().getConnection();
+			ps = conn.prepareStatement(query);
+
+			ps.setString(1, name);
+			ps.setString(2, phone);
+			ps.setString(3, email);
+			ps.setString(4, createddate);
+			ps.setString(5, detail);
+			ps.setString(6, blogId);
+			ps.setString(7, isActive);
+
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void editBlogComment(String commentId, String name, String phone, String email, String createddate,
+			String detail, String blogId, String isActive) {
+		String query = "UPDATE tbl_BlogComment SET "
+				+ "Name = ?, Phone = ?, Email = ?, CreatedDate = ?, Detail = ?, Blog_ID = ?, IsActive = ? "
+				+ "WHERE Comment_ID = ?";
+
+		try {
+			conn = new DBConnect().getConnection();
+			ps = conn.prepareStatement(query);
+
+			ps.setString(1, name);
+			ps.setString(2, phone);
+			ps.setString(3, email);
+			ps.setString(4, createddate);
+			ps.setString(5, detail);
+			ps.setString(6, blogId);
+			ps.setString(7, isActive);
+			ps.setString(8, commentId);
+
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void deleteBlogComment(String id) {
+		String query = "DELETE FROM tbl_BlogComment WHERE Comment_ID = ?";
+		try {
+			conn = new DBConnect().getConnection();
+			ps = conn.prepareStatement(query);
+			ps.setString(1, id);
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+		}
+	}
 }

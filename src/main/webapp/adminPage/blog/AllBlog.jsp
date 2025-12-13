@@ -107,8 +107,8 @@
 
 				<!-- Content wrapper -->
 				<div class="p-4">
-					<h2>Quản lý bài viết</h2>
-					<a href="BlogControllers?action=add">
+					<h2>Quản lý sản phẩm</h2>
+					<a href="${pageContext.request.contextPath}/BlogControllers?action=add">
 						<button type="button" class="btn btn-primary">Thêm mới</button>
 					</a>
 				</div>
@@ -117,53 +117,55 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th width="5%">#</th>
-                                    <th width="12%">Hình ảnh</th>
-                                    <th>Tiêu đề</th>
-                                    
-                                    <th width="10%">Trạng thái</th>
-                                    <th width="15%">Hành động</th>
+								<th>STT</th>
+								<th width="12%">Hình ảnh</th>
+								<th>Tiêu đề</th>
+								<th>Trạng thái</th>
+								<th>Hành động</th>
+								
 							</tr>
 						</thead>
-						<tbody>
-                                <c:forEach var="b" items="${listP}" varStatus="stt">
-                                    <tr>
-                                        <td>${stt.index + 1}</td>
-                                        <td>
-                                            <c:if test="${not empty b.image}">
+						<tbody class="table-border-bottom-0">
+							<c:forEach items="${listP}" var="b" varStatus="stt">
+								<tr>
+									<td>${stt.index + 1}</td>
+									<td><c:if test="${not empty b.image}">
                                                 <img src="${b.image}" 
                                                      alt="img" class="img-thumbnail">
                                             </c:if>
                                             <c:if test="${empty b.image}">
                                                 <span class="text-muted">Không có ảnh</span>
                                             </c:if>
-                                        </td>
-                                        <td>
-                                            <strong>${b.title}</strong>
-                                            
-                                        </td>
-                                        
-                                        <td>
-                                            <span class="badge ${b.active ? 'badge-active' : 'badge-inactive'}">
+									</td>
+									<td>${b.title}</td>
+									<td><span >
                                                 ${b.active ? 'Hiển thị' : 'Đã ẩn'}
                                             </span>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group" role="group">
-                                                <a href="${pageContext.request.contextPath}/BlogControllers?action=edit&id=${b.blogId}" 
-                                                   class="${pageContext.request.contextPath}/btn btn-warning btn-sm">Sửa</a>
-                                                <a href="BlogControllers?action=toggle&id=${b.blogId}" 
-                                                   class="btn btn-info btn-sm text-white">
-                                                    ${b.active ? 'Ẩn' : 'Hiện'}
-                                                </a>
-                                                <a href="BlogControllers?action=delete&id=${b.blogId}" 
-                                                   class="btn btn-danger btn-sm"
-                                                   onclick="return confirm('Xóa vĩnh viễn bài này?')">Xóa</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
+									</td>
+									<!-- Sản phẩm mới -->
+
+									<td>
+										<div class="dropdown">
+											<button type="button"
+												class="btn p-0 dropdown-toggle hide-arrow"
+												data-bs-toggle="dropdown">
+												<i class="bx bx-dots-vertical-rounded"></i>
+											</button>
+											<div class="dropdown-menu">
+												<a href="${pageContext.request.contextPath}/BlogControllers?action=edit&id=${b.blogId}"
+													class="dropdown-item"> <i class="bx bx-edit-alt me-1"></i>
+													Sửa
+												</a> <a onclick="return confirm('Bạn có chắc chắn muốn xoá?')"
+												href="${pageContext.request.contextPath}/BlogControllers?action=delete&id=${b.blogId}"
+												class="dropdown-item"> <i class="bx bx-trash me-1"></i>
+												Xoá
+												</a>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
 					</table>
 				</div>
 				<!-- Content wrapper -->
