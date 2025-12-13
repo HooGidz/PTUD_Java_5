@@ -1,119 +1,207 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Quản lý Blog Comment</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .badge-active { background-color: #28a745; color: white; }
-        .badge-inactive { background-color: #dc3545; color: white; }
-    </style>
 </head>
 <body>
+	<!-- Layout wrapper -->
+	<div class="layout-wrapper layout-content-navbar">
+		<div class="layout-container">
+			<!-- Menu -->
 
-<jsp:include page="/adminPage/header.jsp" />
+			<jsp:include page="/adminPage/header.jsp" />
 
-<div class="container mt-4">
+			<!-- Layout container -->
+			<div class="layout-page">
+				<!-- Navbar -->
 
-    <h3>📋 Quản lý bình luận (${listP.size()} bình luận)</h3>
+				<nav
+					class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+					id="layout-navbar">
+					<div
+						class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+						<a class="nav-item nav-link px-0 me-xl-4"
+							href="javascript:void(0)"> <i class="bx bx-menu bx-sm"></i>
+						</a>
+					</div>
 
-    <!-- Form thêm / sửa bình luận -->
-    <div class="card mb-4">
-        <div class="card-header bg-primary text-white">
-            <strong>Thêm / Sửa Bình Luận</strong>
-        </div>
-        <div class="card-body">
-            <form action="${pageContext.request.contextPath}/BlogCommentController" method="post">
-                <input type="hidden" name="commentId" value="${editComment != null ? editComment.commentId : ''}" />
-                <div class="row mb-2">
-                    <div class="col-md-4">
-                        <label class="form-label">Tên</label>
-                        <input type="text" name="name" class="form-control" required
-                               value="${editComment != null ? editComment.name : ''}" />
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Phone</label>
-                        <input type="text" name="phone" class="form-control"
-                               value="${editComment != null ? editComment.phone : ''}" />
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control"
-                               value="${editComment != null ? editComment.email : ''}" />
-                    </div>
-                </div>
-                <div class="mb-2">
-                    <label class="form-label">Nội dung</label>
-                    <textarea name="detail" class="form-control" rows="2" required>${editComment != null ? editComment.detail : ''}</textarea>
-                </div>
-                <div class="mb-2">
-                    <label class="form-label">Blog ID</label>
-                    <input type="number" name="blogId" class="form-control" required
-                           value="${editComment != null ? editComment.blogId : ''}" />
-                </div>
-                <div class="form-check mb-2">
-                    <input class="form-check-input" type="checkbox" name="isactive"
-                           id="isactive" ${editComment != null && editComment.isIsactive() ? 'checked' : ''}>
-                    <label class="form-check-label" for="isactive">Hiển thị</label>
-                </div>
-                <button type="submit" class="btn btn-success">
-                    ${editComment != null ? 'Cập nhật bình luận' : 'Thêm bình luận'}
-                </button>
-            </form>
-        </div>
-    </div>
+					<div class="navbar-nav-right d-flex align-items-center"
+						id="navbar-collapse">
+						<!-- Search -->
+						<div class="navbar-nav align-items-center">
+							<div class="nav-item d-flex align-items-center">
+								<i class="bx bx-search fs-4 lh-0"></i> <input type="text"
+									class="form-control border-0 shadow-none"
+									placeholder="Search..." aria-label="Search..." />
+							</div>
+						</div>
+						<!-- /Search -->
 
-    <!-- Bảng danh sách bình luận -->
-    <table class="table table-bordered table-hover align-middle">
-        <thead class="table-light">
-            <tr>
-                <th>ID</th>
-                <th>Tên</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>Nội dung</th>
-                <th>Ngày tạo</th>
-                <th>Blog ID</th>
-                <th>Trạng thái</th>
-                <th>Hành động</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach var="comment" items="${listP}">
-                <tr>
-                    <td>${comment.commentId}</td>
-                    <td>${comment.name}</td>
-                    <td>${comment.phone}</td>
-                    <td>${comment.email}</td>
-                    <td>${comment.detail}</td>
-                    <td><fmt:formatDate value="${comment.createddate}" pattern="dd/MM/yyyy HH:mm"/></td>
-                    <td>${comment.blogId}</td>
-                    <td>
-                        <span class="badge ${comment.isIsactive() ? 'badge-active' : 'badge-inactive'}">
-                            ${comment.isIsactive() ? 'Hiển thị' : 'Ẩn'}
-                        </span>
-                    </td>
-                    <td>
-                        <a href="${pageContext.request.contextPath}/BlogCommentController?action=edit&id=${comment.commentId}" 
-                           class="btn btn-warning btn-sm">✏️ Sửa</a>
-                        <a href="${pageContext.request.contextPath}/BlogCommentController?action=toggle&id=${comment.commentId}" 
-                           class="btn btn-info btn-sm text-white">🔄 Toggle</a>
-                        <a href="${pageContext.request.contextPath}/BlogCommentController?action=delete&id=${comment.commentId}" 
-                           class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa bình luận này?');">❌ Xóa</a>
-                    </td>
-                </tr>
-            </c:forEach>
-        </tbody>
-    </table>
+						<ul class="navbar-nav flex-row align-items-center ms-auto">
+							<!-- Place this tag where you want the button to render. -->
+							<li class="nav-item lh-1 me-3"><a class="github-button"
+								href="https://github.com/themeselection/sneat-html-admin-template-free"
+								data-icon="octicon-star" data-size="large"
+								data-show-count="true"
+								aria-label="Star themeselection/sneat-html-admin-template-free on GitHub">Star</a>
+							</li>
 
-    <c:if test="${empty listP}">
-        <div class="alert alert-info">Chưa có bình luận nào.</div>
-    </c:if>
-</div>
+							<!-- User -->
+							<li class="nav-item navbar-dropdown dropdown-user dropdown">
+								<a class="nav-link dropdown-toggle hide-arrow"
+								href="javascript:void(0);" data-bs-toggle="dropdown">
+									<div class="avatar avatar-online">
+										<img src="/Java_5/adminPage/asset/img/avatars/1.png" alt
+											class="w-px-40 h-auto rounded-circle" />
+									</div>
+							</a>
+								<ul class="dropdown-menu dropdown-menu-end">
+									<li><a class="dropdown-item" href="#">
+											<div class="d-flex">
+												<div class="flex-shrink-0 me-3">
+													<div class="avatar avatar-online">
+														<img src="/Java_5/adminPage/asset/img/avatars/1.png" alt
+															class="w-px-40 h-auto rounded-circle" />
+													</div>
+												</div>
+												<div class="flex-grow-1">
+													<span class="fw-semibold d-block">John Doe</span> <small
+														class="text-muted">Admin</small>
+												</div>
+											</div>
+									</a></li>
+									<li>
+										<div class="dropdown-divider"></div>
+									</li>
+									<li><a class="dropdown-item" href="#"> <i
+											class="bx bx-user me-2"></i> <span class="align-middle">My
+												Profile</span>
+									</a></li>
+									<li><a class="dropdown-item" href="#"> <i
+											class="bx bx-cog me-2"></i> <span class="align-middle">Settings</span>
+									</a></li>
+									<li><a class="dropdown-item" href="#"> <span
+											class="d-flex align-items-center align-middle"> <i
+												class="flex-shrink-0 bx bx-credit-card me-2"></i> <span
+												class="flex-grow-1 align-middle">Billing</span> <span
+												class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
+										</span>
+									</a></li>
+									<li>
+										<div class="dropdown-divider"></div>
+									</li>
+									<li><a class="dropdown-item" href="auth-login-basic.html">
+											<i class="bx bx-power-off me-2"></i> <span
+											class="align-middle">Log Out</span>
+									</a></li>
+								</ul>
+							</li>
+							<!--/ User -->
+						</ul>
+					</div>
+				</nav>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+				<!-- / Navbar -->
+
+				<!-- Content wrapper -->
+				<div class="p-4">
+					<h2>Quản lý bình luận</h2>
+					<a href="${pageContext.request.contextPath}/BlogCommentController?action=add">
+						<button type="button" class="btn btn-primary">Thêm mới</button>
+					</a>
+				</div>
+
+				<div class="table-responsive text-nowrap">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>ID</th>
+				                <th>Tên</th>
+				                <th>Phone</th>
+				                <th>Email</th>
+				                <th>Nội dung</th>
+				                <th>Ngày tạo</th>
+				                <th>Blog ID</th>
+				                <th>Trạng thái</th>
+				                <th>Hành động</th>
+								
+							</tr>
+						</thead>
+						<tbody class="table-border-bottom-0">
+							<c:forEach var="comment" items="${listP}">
+				                <tr>
+				                    <td>${comment.commentId}</td>
+				                    <td>${comment.name}</td>
+				                    <td>${comment.phone}</td>
+				                    <td>${comment.email}</td>
+				                    <td>${comment.detail}</td>
+				                    <td><fmt:formatDate value="${comment.createddate}" pattern="dd/MM/yyyy HH:mm"/></td>
+				                    <td>${comment.blogId}</td>
+				                    <td>
+				                        <span >
+				                            ${comment.isIsactive() ? 'Hiển thị' : 'Ẩn'}
+				                        </span>
+				                    </td>
+				                    <td>
+										<div class="dropdown">
+											<button type="button"
+												class="btn p-0 dropdown-toggle hide-arrow"
+												data-bs-toggle="dropdown">
+												<i class="bx bx-dots-vertical-rounded"></i>
+											</button>
+											<div class="dropdown-menu">
+												<a href="${pageContext.request.contextPath}/BlogCommentController?action=edit&id=${comment.commentId}"
+													class="dropdown-item"> <i class="bx bx-edit-alt me-1"></i>
+													Sửa
+												</a> <a onclick="return confirm('Bạn có chắc chắn muốn xoá?')"
+												href="${pageContext.request.contextPath}/BlogCommentController?action=delete&id=${comment.commentId}"
+												class="dropdown-item"> <i class="bx bx-trash me-1"></i>
+												Xoá
+												</a>
+											</div>
+										</div>
+									</td>
+				                </tr>
+				            </c:forEach>
+						</tbody>
+					</table>
+				</div>
+				<!-- Content wrapper -->
+			</div>
+			<!-- / Layout page -->
+		</div>
+
+		<!-- Overlay -->
+		<div class="layout-overlay layout-menu-toggle"></div>
+	</div>
+	<!-- / Layout wrapper -->
+
+
+
+	<!-- Core JS -->
+	<!-- build:js assets/vendor/js/core.js -->
+	<script src="/Java_5/adminPage/asset/vendor/libs/jquery/jquery.js"></script>
+	<script src="/Java_5/adminPage/asset/vendor/libs/popper/popper.js"></script>
+	<script src="/Java_5/adminPage/asset/vendor/js/bootstrap.js"></script>
+	<script
+		src="/Java_5/adminPage/asset/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+	<script src="/Java_5/adminPage/asset/vendor/js/menu.js"></script>
+	<!-- endbuild -->
+
+	<!-- Vendors JS -->
+	<script
+		src="/Java_5/adminPage/asset/vendor/libs/apex-charts/apexcharts.js"></script>
+
+	<!-- Main JS -->
+	<script src="/Java_5/adminPage/asset/js/main.js"></script>
+
+	<!-- Page JS -->
+	<script src="/Java_5/adminPage/asset/js/dashboards-analytics.js"></script>
+
+	<!-- Place this tag in your head or just before your close body tag. -->
+	<script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
 </html>

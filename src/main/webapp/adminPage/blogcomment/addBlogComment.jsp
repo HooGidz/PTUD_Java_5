@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Thêm bộ sưu tập</title>
+<title>Thêm bình luận</title>
 </head>
 <body>
 <div class="layout-wrapper layout-content-navbar">
@@ -15,79 +15,53 @@
 
 		<div class="layout-page">
 			<div class="p-2">
-				<h1>Thêm bộ sưu tập</h1>
+				<h1>Thêm bình luận</h1>
 			</div>
 
 			<div style="padding: 0px 30px;">
-				<form action="${pageContext.request.contextPath}/AdminCollectionController?action=add" method="post">
+				<form action="${pageContext.request.contextPath}/BlogCommentController?action=add" method="post">
 					<div class="pb-3">
 						<label class="form-label">Tên</label>
 						<input name="name" type="text" class="form-control" required>
 					</div>
 
 					<div class="pb-3">
-						<label class="form-label">Bí danh</label>
-						<input name="alias" type="text" class="form-control">
-					</div>
-					
-					<div class="pb-3">
-						<label class="form-label">Nhà thiết kế</label>
-						<input name="designer" type="text" class="form-control" required>
+						<label class="form-label">Số điện thoại</label>
+						<input name="phone" type="text" class="form-control">
 					</div>
 
 					<div class="pb-3">
-						<label class="form-label">Người tạo</label>
-						<input name="maker" type="text" class="form-control">
+						<label class="form-label">Email</label>
+						<input name="email" type="text" class="form-control" required>
 					</div>
 
 					<div class="pb-3">
-						<label class="form-label">Mô tả</label>
-						<input name="description" type="text" class="form-control">
-					</div>
-
-					<div class="pb-3">
-						<label class="form-label">Chi tiết</label>
+						<label class="form-label">Nội dung</label>
 						<input name="detail" type="text" class="form-control">
 					</div>
 
 					<div class="pb-3">
-						<label class="form-label">Ảnh</label>
-						<input name="image" type="text" class="form-control">
-					</div>
-					
-					<div class="pb-3">
-                       <label class="form-label">Ngày tạo</label>
-                       <input name="createdDate" type="date" class="form-control">
-					</div>
-					
-					<div class="pb-3">
-						<label class="form-label">Sản phẩm mới</label>
-						<select name="isNew" class="form-select">
-							<option value="true">Đúng</option>
-							<option value="false">Sai</option>
-						</select>
+						<label class="form-label">Ngày tạo</label>
+						<input name="createddate" type="date" class="form-control">
 					</div>
 
 					<div class="pb-3">
-						<label class="form-label">Sản phẩm bán chạy</label>
-						<select name="isBestSeller" class="form-select">
-							<option value="true">Đúng</option>
-							<option value="false">Sai</option>
-						</select>
+						<label class="form-label">Mã bài viết</label>
+						<input name="blogId" type="number" class="form-control">
 					</div>
 
 					<div class="pb-3">
 						<label class="form-label">Trạng thái</label>
                                     <div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="isActive" 
+                                            <input class="form-check-input" type="radio" name="isactive" 
                                                    id="active1" value="1" checked>
                                             <label class="form-check-label" for="active1">
                                                 Hiển thị
                                             </label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="isActive" 
+                                            <input class="form-check-input" type="radio" name="isactive" 
                                                    id="active0" value="0">
                                             <label class="form-check-label" for="active0">
                                                 Ẩn
@@ -95,7 +69,7 @@
 								</div>
 						</div>
 					</div>
-						<button type="submit" class="btn btn-primary mt-3">Thêm bộ sưu tập</button>
+						<button type="submit" class="btn btn-primary mt-3">Thêm bình luận</button>
 						<button type="button" onclick="history.back()" class="btn btn-secondary mt-3">Quay lại</button>
 					</form>
 				</div>
