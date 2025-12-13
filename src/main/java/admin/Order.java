@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.DAO;
 import db.tbl_Order;
+import db.tbl_OrderDetail;
+import db.tbl_OrderStatus;
+import db.tbl_Product;
 import db.tbl_Provider;
 
 /**
@@ -42,17 +45,38 @@ public class Order extends HttpServlet {
 		DAO dao = new DAO();
 
 		if (action == null) {
-			List<tbl_Order> listOrder = dao.getAllOrder();
+			int page = 1;
+			int pageSize = 10;
+
+			if (request.getParameter("page") != null) {
+			    page = Integer.parseInt(request.getParameter("page"));
+			}
+			int totalOrders = dao.getTotalOrders();
+			int totalPages = (int) Math.ceil((double) totalOrders / pageSize);
+
+			List<tbl_Order> listOrder = dao.getOrdersByPage(page, pageSize);
+
 			request.setAttribute("listOrder", listOrder);
+			request.setAttribute("currentPage", page);
+			request.setAttribute("totalPages", totalPages);
+
 			request.getRequestDispatcher("/adminPage/Order/AllOrder.jsp").forward(request, response);
 
 		} else if (action.equals("add")) {
+			List<tbl_Product> products = dao.getAllProduct();
+			request.setAttribute("products", products);
 			request.getRequestDispatcher("/adminPage/Order/AddOrder.jsp").forward(request, response);
 
 		} else if (action.equals("edit")) {
 			String orderId = request.getParameter("id");
 			tbl_Order order = dao.getOrderById(orderId);
+			List<tbl_Product> products = dao.getAllProduct();
+			List<tbl_OrderDetail> orderDetails = dao.getOrderDetailsByOrderId(orderId);
+			tbl_OrderStatus orderStatus = dao.getOrderStatusByOrderId(orderId);
 			request.setAttribute("orderDetail", order);
+			request.setAttribute("products", products);
+			request.setAttribute("orderDetails", orderDetails);
+			request.setAttribute("orderStatus", orderStatus);
 			request.getRequestDispatcher("/adminPage/Order/EditOrder.jsp").forward(request, response);
 
 		} else if (action.equals("delete")) {
@@ -61,7 +85,7 @@ public class Order extends HttpServlet {
 			response.sendRedirect("Order");
 		}
 	}
-
+                                  
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
@@ -81,10 +105,18 @@ public class Order extends HttpServlet {
 			String quantity = request.getParameter("quantity");
 			String note = request.getParameter("note");
 			String paymentMethod = request.getParameter("paymentMethod");
+			// Lấy tham số trạng thái đơn hàng mới
+			String orderStatus = request.getParameter("orderStatus");
+			String descriptionStatus = request.getParameter("descriptionStatus");
+			
+			String[] productIds = request.getParameterValues("productId");
+			String[] productPrices = request.getParameterValues("productPrice");
+			String[] productQuantities = request.getParameterValues("productQuantity");
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 			LocalDateTime now = LocalDateTime.now();
 			String createdDate = dtf.format(now);
-			dao.addOrder(customerName, phone, address, totalAmount, quantity, note, paymentMethod, createdDate);
+			dao.addOrder(customerName, phone, address, totalAmount, quantity, note, paymentMethod, createdDate,
+					orderStatus, descriptionStatus, productIds, productPrices, productQuantities);
 			response.sendRedirect("Order");
 
 		} else if (action.equals("editsubmit")) {
@@ -96,12 +128,19 @@ public class Order extends HttpServlet {
 			String quantity = request.getParameter("quantity");
 			String note = request.getParameter("note");
 			String paymentMethod = request.getParameter("paymentMethod");
+			// Lấy tham số trạng thái khi edit
+			String orderStatus = request.getParameter("orderStatus");
+			String descriptionStatus = request.getParameter("descriptionStatus");
+			// Lấy danh sách sản phẩm (nhiều)
+			String[] productIds = request.getParameterValues("productId");
+			String[] productPrices = request.getParameterValues("productPrice");
+			String[] productQuantities = request.getParameterValues("productQuantity");
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 			LocalDateTime now = LocalDateTime.now();
 			String modifiedDate = dtf.format(now);
 
 			dao.editOrder(orderId, customerName, phone, address, totalAmount, quantity, note, paymentMethod,
-					modifiedDate);
+					orderStatus, descriptionStatus, modifiedDate, productIds, productPrices, productQuantities);
 			response.sendRedirect("Order");
 
 		} else {

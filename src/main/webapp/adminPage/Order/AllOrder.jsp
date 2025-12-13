@@ -129,7 +129,7 @@
 									<td><i class="fab fa-angular fa-lg text-danger me-3"></i>
 										<strong>${o.customerName }</strong></td>
 									<td>${o.phone }</td>
-									
+
 									<td>
 										<div class="dropdown">
 											<button type="button"
@@ -153,10 +153,22 @@
 							</c:forEach>
 						</tbody>
 					</table>
+
 				</div>
+				<nav>
+					<ul class="pagination justify-content-center">
+						<c:forEach begin="1" end="${totalPages}" var="i">
+							<li class="page-item ${i == currentPage ? 'active' : ''}"><a
+								class="page-link" href="Order?page=${i}">${i}</a></li>
+						</c:forEach>
+					</ul>
+				</nav>
+
+
 				<!-- Content wrapper -->
 			</div>
 			<!-- / Layout page -->
+
 		</div>
 
 		<!-- Overlay -->
@@ -165,29 +177,7 @@
 	<!-- / Layout wrapper -->
 
 
+	<jsp:include page="/adminPage/footer.jsp" />
 
-	<!-- Core JS -->
-	<!-- build:js assets/vendor/js/core.js -->
-	<script src="/Java_5/adminPage/asset/vendor/libs/jquery/jquery.js"></script>
-	<script src="/Java_5/adminPage/asset/vendor/libs/popper/popper.js"></script>
-	<script src="/Java_5/adminPage/asset/vendor/js/bootstrap.js"></script>
-	<script
-		src="/Java_5/adminPage/asset/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-
-	<script src="/Java_5/adminPage/asset/vendor/js/menu.js"></script>
-	<!-- endbuild -->
-
-	<!-- Vendors JS -->
-	<script
-		src="/Java_5/adminPage/asset/vendor/libs/apex-charts/apexcharts.js"></script>
-
-	<!-- Main JS -->
-	<script src="/Java_5/adminPage/asset/js/main.js"></script>
-
-	<!-- Page JS -->
-	<script src="/Java_5/adminPage/asset/js/dashboards-analytics.js"></script>
-
-	<!-- Place this tag in your head or just before your close body tag. -->
-	<script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
 </html>

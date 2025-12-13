@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import dao.DAO;
 import db.tbl_Product;
 
-@WebServlet("/product")
+@WebServlet("/ProductController")
 public class Product extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

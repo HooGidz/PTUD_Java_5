@@ -113,12 +113,12 @@ request.setAttribute("grandTotal", grandTotal);
 				<div class="d-flex justify-content-between">
 					<div>
 						<a class="btn_1"
-							href="">Tiếp tục
+							href="${pageContext.request.contextPath}/san-pham">Tiếp tục <%-- Sửa: thêm đường dẫn --%>
 							mua sắm</a>
 					</div>
 					<div>
 						<a class="btn_1 checkout_btn_1"
-							href="${pageContext.request.contextPath}/CheckoutServlet">Thanh
+							href="${pageContext.request.contextPath}/Checkout">Thanh
 							toán</a>
 					</div>
 				</div>

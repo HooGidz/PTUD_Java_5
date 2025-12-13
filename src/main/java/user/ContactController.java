@@ -14,7 +14,7 @@ import dao.DAO;
 import db.tbl_Contact;
 import db.tbl_Menu;
 
-@WebServlet("/ContactController") // Ánh xạ tới đường dẫn
+@WebServlet("/gioi-thieu") // Ánh xạ tới đường dẫn
 public class ContactController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

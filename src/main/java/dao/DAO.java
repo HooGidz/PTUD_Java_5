@@ -6,7 +6,10 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.sql.PreparedStatement;
+
+import db.CartItem;
 import db.DBConnect;
 import db.tbl_Menu;
 import db.tbl_Order;
@@ -26,6 +29,7 @@ import db.tbl_ProductCategory;
 import db.tbl_Blog;
 import db.tbl_Collection;
 import db.tbl_BlogComment;
+import java.sql.Statement;
 
 public class DAO {
 	Connection conn = null;
@@ -495,6 +499,51 @@ public class DAO {
 
 		return list;
 	}
+	public int getTotalOrders() {
+	    String query = "SELECT COUNT(*) FROM tbl_Order";
+	    try {
+	        conn = new DBConnect().getConnection();
+	        ps = conn.prepareStatement(query);
+	        rs = ps.executeQuery();
+	        if (rs.next()) {
+	            return rs.getInt(1);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return 0;
+	}
+
+
+	public List<tbl_Order> getOrdersByPage(int page, int pageSize) {
+	    List<tbl_Order> list = new ArrayList<>();
+	    String query = "SELECT * FROM tbl_Order ORDER BY Order_ID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+	    try {
+	        conn = new DBConnect().getConnection();
+	        ps = conn.prepareStatement(query);
+
+	        int offset = (page - 1) * pageSize;
+
+	        ps.setInt(1, offset);
+	        ps.setInt(2, pageSize);
+
+	        rs = ps.executeQuery();
+	        while (rs.next()) {
+	            list.add(new tbl_Order(
+	                rs.getInt(1), rs.getString(2), rs.getString(3),
+	                rs.getString(4), rs.getInt(5), rs.getInt(6),
+	                rs.getDate(7), rs.getString(8), rs.getDate(9),
+	                rs.getString(10), rs.getString(11), rs.getString(12)
+	            ));
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return list;
+	}
+
+
 
 	public tbl_Order getOrderById(String id) {
 		String query = "select * from tbl_Order where Order_ID = ?";
@@ -514,6 +563,37 @@ public class DAO {
 		}
 		return null;
 
+	}
+
+	public List<tbl_OrderDetail> getOrderDetailsByOrderId(String orderId) {
+		List<tbl_OrderDetail> list = new ArrayList<>();
+		String query = "SELECT * FROM tbl_OrderDetail WHERE Order_ID = ?";
+		try (Connection c = new DBConnect().getConnection(); PreparedStatement p = c.prepareStatement(query)) {
+			p.setString(1, orderId);
+			try (ResultSet r = p.executeQuery()) {
+				while (r.next()) {
+					list.add(new tbl_OrderDetail(r.getInt(1), r.getInt(2), r.getInt(3), r.getDouble(4), r.getInt(5)));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public tbl_OrderStatus getOrderStatusByOrderId(String orderId) {
+		String query = "SELECT * FROM tbl_OrderStatus WHERE Order_ID = ?";
+		try (Connection c = new DBConnect().getConnection(); PreparedStatement p = c.prepareStatement(query)) {
+			p.setString(1, orderId);
+			try (ResultSet r = p.executeQuery()) {
+				if (r.next()) {
+					return new tbl_OrderStatus(r.getInt(1), r.getInt(2), r.getString(3), r.getString(4));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public void deleteOrder(String id) {
@@ -538,51 +618,209 @@ public class DAO {
 	}
 
 	public void addOrder(String customerName, String phone, String address, String totalAmount, String quantity,
-			String note, String paymentMethod, String createdDate) {
+			String note, String paymentMethod, String createdDate, String orderStatus, String descriptionStatus, String[] productIds, String[] productPrices,
+			String[] productQuantities) {
 		String query = "INSERT INTO tbl_Order (CustomerName, Phone, Address, TotalAmount, Quantity, CreatedDate, Note, PaymentMethod) "
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+
+		Connection localConn = null;
+		PreparedStatement psOrder = null;
+		PreparedStatement psDetail = null;
+		PreparedStatement psStatus = null;
+		ResultSet generatedKeys = null;
 		try {
-			conn = new DBConnect().getConnection();
-			ps = conn.prepareStatement(query);
-			ps.setString(1, customerName);
-			ps.setString(2, phone);
-			ps.setString(3, address);
-			ps.setString(4, totalAmount);
-			ps.setString(5, quantity);
-			ps.setString(6, createdDate);
-			ps.setString(7, note);
-			ps.setString(8, paymentMethod);
+			localConn = new DBConnect().getConnection();
+			// Bắt đầu transaction
+			localConn.setAutoCommit(false);
 
-			ps.executeUpdate();
+			psOrder = localConn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			psOrder.setString(1, customerName);
+			psOrder.setString(2, phone);
+			psOrder.setString(3, address);
+			psOrder.setString(4, totalAmount);
+			psOrder.setString(5, quantity);
+			psOrder.setString(6, createdDate);
+			psOrder.setString(7, note);
+			psOrder.setString(8, paymentMethod);
+
+			psOrder.executeUpdate();
+
+			generatedKeys = psOrder.getGeneratedKeys();
+			int orderId = -1;
+			if (generatedKeys != null && generatedKeys.next()) {
+				orderId = generatedKeys.getInt(1);
+			}
+
+			// Nếu có dữ liệu sản phẩm, chèn vào tbl_OrderDetail (hỗ trợ nhiều sản phẩm)
+			if (orderId != -1 && productIds != null && productIds.length > 0) {
+				String qd = "INSERT INTO tbl_OrderDetail (Order_ID, Product_ID, Price, Quantity) VALUES (?, ?, ?, ?)";
+				psDetail = localConn.prepareStatement(qd);
+				for (int i = 0; i < productIds.length; i++) {
+					String pid = productIds[i];
+					if (pid == null || pid.trim().isEmpty())
+						continue;
+					double price = 0.0;
+					int qty = 0;
+					if (productPrices != null && i < productPrices.length && productPrices[i] != null && !productPrices[i].trim().isEmpty()) {
+						try { price = Double.parseDouble(productPrices[i].trim()); } catch (NumberFormatException nfe) { price = 0.0; }
+					}
+					if (productQuantities != null && i < productQuantities.length && productQuantities[i] != null && !productQuantities[i].trim().isEmpty()) {
+						try { qty = Integer.parseInt(productQuantities[i].trim()); } catch (NumberFormatException nfe) { qty = 0; }
+					}
+
+					psDetail.setInt(1, orderId);
+					psDetail.setString(2, pid);
+					psDetail.setDouble(3, price);
+					psDetail.setInt(4, qty);
+					psDetail.executeUpdate();
+				}
+			}
+
+			// Chèn trạng thái vào tbl_OrderStatus theo giá trị được chọn
+			if (orderId != -1) {
+				String qs = "INSERT INTO tbl_OrderStatus (Order_ID, Name, Description) VALUES (?, ?, ?)";
+				psStatus = localConn.prepareStatement(qs);
+				psStatus.setInt(1, orderId);
+				psStatus.setString(2, orderStatus);
+				psStatus.setString(3, descriptionStatus);
+				psStatus.executeUpdate();
+			}
+
+			// Commit transaction
+			localConn.commit();
 		} catch (Exception e) {
-
+			try { if (localConn != null) localConn.rollback(); } catch (Exception ex) { ex.printStackTrace(); }
+			e.printStackTrace();
+		} finally {
+			try {
+				if (generatedKeys != null)
+					generatedKeys.close();
+			} catch (Exception e) {
+			}
+			try {
+				if (psOrder != null)
+					psOrder.close();
+			} catch (Exception e) {
+			}
+			try {
+				if (psDetail != null)
+					psDetail.close();
+			} catch (Exception e) {
+			}
+			try {
+				if (psStatus != null)
+					psStatus.close();
+			} catch (Exception e) {
+			}
+			try {
+				if (localConn != null)
+					localConn.setAutoCommit(true);
+			} catch (Exception e) {}
+			try {
+				if (localConn != null)
+					localConn.close();
+			} catch (Exception e) {
+			}
 		}
 	}
 
 	public void editOrder(String id, String customerName, String phone, String address, String totalAmount,
-			String quantity, String note, String paymentMethod, String modifiedDate) {
+			String quantity, String note, String paymentMethod, String orderStatus, String descriptionStatus, String modifiedDate,
+			String[] productIds, String[] productPrices, String[] productQuantities) {
 		String query = "UPDATE tbl_Order SET"
 				+ " CustomerName = ?, Phone = ?, Address = ?, TotalAmount = ?, Quantity = ?, ModifiedDate = ?, Note = ?, PaymentMethod = ? "
 				+ "WHERE Order_ID = ?";
-		try {
-			conn = new DBConnect().getConnection();
-			ps = conn.prepareStatement(query);
-			ps.setString(1, customerName);
-			ps.setString(2, phone);
-			ps.setString(3, address);
-			ps.setString(4, totalAmount);
-			ps.setString(5, quantity);
-			ps.setString(6, modifiedDate);
-			ps.setString(7, note);
-			ps.setString(8, paymentMethod);
-			ps.setString(9, id);
-			ps.executeUpdate();
-		} catch (Exception e) {
 
+		Connection localConn = null;
+		PreparedStatement psOrder = null;
+		PreparedStatement psDelDetail = null;
+		PreparedStatement psInsDetail = null;
+		PreparedStatement psStatus = null;
+		ResultSet rs = null;
+		try {
+			localConn = new DBConnect().getConnection();
+			localConn.setAutoCommit(false);
+
+			psOrder = localConn.prepareStatement(query);
+			psOrder.setString(1, customerName);
+			psOrder.setString(2, phone);
+			psOrder.setString(3, address);
+			psOrder.setString(4, totalAmount);
+			psOrder.setString(5, quantity);
+			psOrder.setString(6, modifiedDate);
+			psOrder.setString(7, note);
+			psOrder.setString(8, paymentMethod);
+			psOrder.setString(9, id);
+			psOrder.executeUpdate();
+
+			// Xóa các order detail cũ
+			String qdel = "DELETE FROM tbl_OrderDetail WHERE Order_ID = ?";
+			psDelDetail = localConn.prepareStatement(qdel);
+			psDelDetail.setString(1, id);
+			psDelDetail.executeUpdate();
+
+			// Chèn lại các order detail mới (nếu có)
+			if (productIds != null && productIds.length > 0) {
+				String qinsDetail = "INSERT INTO tbl_OrderDetail (Order_ID, Product_ID, Price, Quantity) VALUES (?, ?, ?, ?)";
+				psInsDetail = localConn.prepareStatement(qinsDetail);
+				for (int i = 0; i < productIds.length; i++) {
+					String pid = productIds[i];
+					if (pid == null || pid.trim().isEmpty()) continue;
+					double price = 0.0;
+					int qty = 0;
+					if (productPrices != null && i < productPrices.length && productPrices[i] != null && !productPrices[i].trim().isEmpty()) {
+						try { price = Double.parseDouble(productPrices[i].trim()); } catch (NumberFormatException nfe) { price = 0.0; }
+					}
+					if (productQuantities != null && i < productQuantities.length && productQuantities[i] != null && !productQuantities[i].trim().isEmpty()) {
+						try { qty = Integer.parseInt(productQuantities[i].trim()); } catch (NumberFormatException nfe) { qty = 0; }
+					}
+					psInsDetail.setString(1, id);
+					psInsDetail.setString(2, pid);
+					psInsDetail.setDouble(3, price);
+					psInsDetail.setInt(4, qty);
+					psInsDetail.executeUpdate();
+				}
+			}
+
+			// Cập nhật tbl_OrderStatus: nếu tồn tại thì update, nếu không thì insert
+			String qCheck = "SELECT OrderStatus_ID FROM tbl_OrderStatus WHERE Order_ID = ?";
+			psStatus = localConn.prepareStatement(qCheck);
+			psStatus.setString(1, id);
+			rs = psStatus.executeQuery();
+			if (rs != null && rs.next()) {
+				rs.close();
+				psStatus.close();
+				String qup = "UPDATE tbl_OrderStatus SET Name = ?, Description = ? WHERE Order_ID = ?";
+				psStatus = localConn.prepareStatement(qup);
+				psStatus.setString(1, (orderStatus != null && !orderStatus.isEmpty()) ? orderStatus : "");
+				psStatus.setString(2, (descriptionStatus != null) ? descriptionStatus : "");
+				psStatus.setString(3, id);
+				psStatus.executeUpdate();
+			} else {
+				if (psStatus != null) { try { rs = null; psStatus.close(); } catch (Exception ex) {} }
+				String qins = "INSERT INTO tbl_OrderStatus (Order_ID, Name, Description) VALUES (?, ?, ?)";
+				psStatus = localConn.prepareStatement(qins);
+				psStatus.setString(1, id);
+				psStatus.setString(2, (orderStatus != null && !orderStatus.isEmpty()) ? orderStatus : "");
+				psStatus.setString(3, (descriptionStatus != null) ? descriptionStatus : "");
+				psStatus.executeUpdate();
+			}
+
+			localConn.commit();
+		} catch (Exception e) {
+			try { if (localConn != null) localConn.rollback(); } catch (Exception ex) { ex.printStackTrace(); }
+			e.printStackTrace();
+		} finally {
+			try { if (rs != null) rs.close(); } catch (Exception e) {}
+			try { if (psOrder != null) psOrder.close(); } catch (Exception e) {}
+			try { if (psDelDetail != null) psDelDetail.close(); } catch (Exception e) {}
+			try { if (psInsDetail != null) psInsDetail.close(); } catch (Exception e) {}
+			try { if (psStatus != null) psStatus.close(); } catch (Exception e) {}
+			try { if (localConn != null) localConn.setAutoCommit(true); } catch (Exception e) {}
+			try { if (localConn != null) localConn.close(); } catch (Exception e) {}
 		}
 	}
 
-	// user trang sản phẩm
 	public List<tbl_Product> getAllProduct() {
 		List<tbl_Product> list = new ArrayList<>();
 		String query = "select * from tbl_Product";
@@ -1775,4 +2013,129 @@ public class DAO {
 		}
 		return null;
 	}
+
+	public List<tbl_Product> getProductsByName(String q) {
+		List<tbl_Product> list = new ArrayList<>();
+		String query = "SELECT * FROM tbl_Product WHERE Name LIKE ? OR Alias LIKE ?" +
+			" ORDER BY Product_ID OFFSET 0 ROWS FETCH NEXT 20 ROWS ONLY";
+		try (Connection conn = new DBConnect().getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+			String like = "%" + q + "%";
+			ps.setString(1, like);
+			ps.setString(2, like);
+			try (ResultSet rs = ps.executeQuery()) {
+				while (rs.next()) {
+					list.add(new tbl_Product(rs.getInt("Product_ID"), rs.getInt("Provider_ID"), rs.getInt("Category_ID"),
+							rs.getString("Name"), rs.getString("Alias"), rs.getString("Brands"), rs.getString("Material"),
+							rs.getString("Dimensions"), rs.getString("Description"), rs.getString("Detail"),
+							rs.getString("Image"), rs.getDouble("Price"), rs.getDouble("PriceSale"), rs.getInt("Quantity"),
+							rs.getBoolean("IsNew"), rs.getBoolean("IsBestSeller"), rs.getBoolean("IsActive"), rs.getInt("Star")));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	// Thêm Order cho người dùng từ Cart, trả về true nếu thành công
+	public boolean addOrderFromCart(String customerName, String phone, String address, double grandTotal, String note, String paymentMethod, Map<Integer, CartItem> cart) {
+	    // Câu lệnh SQL cho tbl_Order (sử dụng GETDATE() để lấy ngày hiện tại)
+	    String orderQuery = "INSERT INTO tbl_Order (CustomerName, Phone, Address, TotalAmount, Quantity, CreatedDate, Note, PaymentMethod) VALUES (?, ?, ?, ?, ?, GETDATE(), ?, ?)";
+	    // Câu lệnh SQL cho tbl_OrderDetail
+	    String detailQuery = "INSERT INTO tbl_OrderDetail (Order_ID, Product_ID, Price, Quantity) VALUES (?, ?, ?, ?)";
+	    // Câu lệnh SQL cho tbl_OrderStatus (Mặc định là 'Chờ xác nhận')
+	    String statusQuery = "INSERT INTO tbl_OrderStatus (Order_ID, Name, Description) VALUES (?, ?, ?)";
+	    
+	    Connection localConn = null;
+	    PreparedStatement psOrder = null;
+	    PreparedStatement psDetail = null;
+	    PreparedStatement psStatus = null;
+	    ResultSet generatedKeys = null;
+	    
+	    // Tính tổng số lượng sản phẩm
+	    int totalQuantity = cart.values().stream().mapToInt(CartItem::getQuantity).sum();
+
+	    try {
+	        localConn = new DBConnect().getConnection();
+	        localConn.setAutoCommit(false); // Bắt đầu giao dịch
+
+	        // 1. Insert tbl_Order
+	        psOrder = localConn.prepareStatement(orderQuery, Statement.RETURN_GENERATED_KEYS);
+	        psOrder.setString(1, customerName);
+	        psOrder.setString(2, phone);
+	        psOrder.setString(3, address);
+	        psOrder.setDouble(4, grandTotal);
+	        psOrder.setInt(5, totalQuantity);
+	        psOrder.setString(6, note);
+	        psOrder.setString(7, paymentMethod);
+	        
+	        psOrder.executeUpdate();
+
+	        // Lấy Order_ID vừa tạo (quan trọng)
+	        int orderId = -1;
+	        generatedKeys = psOrder.getGeneratedKeys();
+	        if (generatedKeys.next()) {
+	            orderId = generatedKeys.getInt(1);
+	        } else {
+	            throw new Exception("Không lấy được Order ID sau khi thêm Order.");
+	        }
+
+	        // 2. Insert tbl_OrderDetail từ CartItem
+	        for (CartItem item : cart.values()) {
+	            psDetail = localConn.prepareStatement(detailQuery);
+	            psDetail.setInt(1, orderId);
+	            psDetail.setInt(2, item.getProductId());
+	            psDetail.setDouble(3, item.getPrice()); // Sử dụng giá gốc từ CartItem
+	            psDetail.setInt(4, item.getQuantity());
+	            psDetail.executeUpdate();
+	            psDetail.close(); 
+	        }
+	        
+	        // 3. Insert tbl_OrderStatus (Trạng thái mặc định)
+	        psStatus = localConn.prepareStatement(statusQuery);
+	        psStatus.setInt(1, orderId);
+	        psStatus.setString(2, "Chờ xác nhận"); // Trạng thái ban đầu
+	        psStatus.setString(3, "Đơn hàng mới được tạo từ người dùng.");
+	        psStatus.executeUpdate();
+	        
+	        localConn.commit(); // Hoàn tất giao dịch
+	        return true;
+	        
+	    } catch (Exception e) {
+	        if (localConn != null) {
+	            try {
+	                localConn.rollback(); // Rollback nếu có lỗi
+	            } catch (Exception ex) {
+	                ex.printStackTrace();
+	            }
+	        }
+	        e.printStackTrace();
+	        return false;
+	    } finally {
+	        // Đóng tất cả tài nguyên
+	        try { if (generatedKeys != null) generatedKeys.close(); } catch (Exception e) {}
+	        try { if (psOrder != null) psOrder.close(); } catch (Exception e) {}
+	        // psDetail đã đóng trong vòng lặp
+	        try { if (psStatus != null) psStatus.close(); } catch (Exception e) {}
+	        try { if (localConn != null) localConn.setAutoCommit(true); } catch (Exception e) {}
+	        try { if (localConn != null) localConn.close(); } catch (Exception e) {}
+	    }
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

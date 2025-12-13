@@ -108,7 +108,7 @@
 				<!-- Content wrapper -->
 				<div class="p-4">
 					<h2>Quản lý sản phẩm</h2>
-					<a href="product?action=add">
+					<a href="ProductController?action=add">
 						<button type="button" class="btn btn-primary">Thêm mới</button>
 					</a>
 				</div>
@@ -148,11 +148,11 @@
 												<i class="bx bx-dots-vertical-rounded"></i>
 											</button>
 											<div class="dropdown-menu">
-												<a href="product?action=edit&id=${o.productId}"
+												<a href="ProductController?action=edit&id=${o.productId}"
 													class="dropdown-item"> <i class="bx bx-edit-alt me-1"></i>
 													Sửa
 												</a> <a onclick="return confirm('Bạn có chắc chắn muốn xoá?')"
-													href="product?action=delete&id=${o.productId}"
+													href="ProductController?action=delete&id=${o.productId}"
 													class="dropdown-item"> <i class="bx bx-trash me-1"></i>
 													Xoá
 												</a>

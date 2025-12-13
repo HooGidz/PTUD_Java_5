@@ -14,7 +14,7 @@ import db.tbl_Menu;
 import db.tbl_Product;
 import db.tbl_ProductCategory;
 
-@WebServlet("/ProductController")
+@WebServlet("/product")
 public class ProductController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

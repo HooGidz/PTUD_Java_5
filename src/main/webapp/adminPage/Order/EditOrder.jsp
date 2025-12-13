@@ -1,4 +1,5 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -7,17 +8,11 @@
 <meta charset="UTF-8">
 </head>
 <body>
-	<!-- Layout wrapper -->
 	<div class="layout-wrapper layout-content-navbar">
 		<div class="layout-container">
-			<!-- Menu -->
-
 			<jsp:include page="/adminPage/header.jsp" />
 
-			<!-- Layout container -->
 			<div class="layout-page">
-				<!-- Navbar -->
-
 				<nav
 					class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
 					id="layout-navbar">
@@ -30,7 +25,6 @@
 
 					<div class="navbar-nav-right d-flex align-items-center"
 						id="navbar-collapse">
-						<!-- Search -->
 						<div class="navbar-nav align-items-center">
 							<div class="nav-item d-flex align-items-center">
 								<i class="bx bx-search fs-4 lh-0"></i> <input type="text"
@@ -38,10 +32,7 @@
 									placeholder="Search..." aria-label="Search..." />
 							</div>
 						</div>
-						<!-- /Search -->
-
 						<ul class="navbar-nav flex-row align-items-center ms-auto">
-							<!-- Place this tag where you want the button to render. -->
 							<li class="nav-item lh-1 me-3"><a class="github-button"
 								href="https://github.com/themeselection/sneat-html-admin-template-free"
 								data-icon="octicon-star" data-size="large"
@@ -49,7 +40,6 @@
 								aria-label="Star themeselection/sneat-html-admin-template-free on GitHub">Star</a>
 							</li>
 
-							<!-- User -->
 							<li class="nav-item navbar-dropdown dropdown-user dropdown">
 								<a class="nav-link dropdown-toggle hide-arrow"
 								href="javascript:void(0);" data-bs-toggle="dropdown">
@@ -99,14 +89,9 @@
 									</a></li>
 								</ul>
 							</li>
-							<!--/ User -->
 						</ul>
 					</div>
 				</nav>
-
-				<!-- / Navbar -->
-
-				<!-- Content wrapper -->
 
 				<div class="p-2">
 					<h1>Sửa thông tin đơn hàng</h1>
@@ -149,9 +134,9 @@
 						</div>
 						<div class="pb-3">
 							<label for="defaultFormControlInput" class="form-label">Ghi
-								chú</label>
-							<textarea name="note" class="form-control"
-								id="exampleFormControlTextarea1" rows="2">${orderDetail.note }</textarea>
+								chú</label> <input value="${orderDetail.note }" name="note" type="text"
+								class="form-control" id="defaultFormControlInput" placeholder=""
+								aria-describedby="defaultFormControlHelp">
 						</div>
 						<div class="pb-3">
 							<label for="defaultFormControlInput" class="form-label">Phương
@@ -160,46 +145,127 @@
 								id="defaultFormControlInput" placeholder=""
 								aria-describedby="defaultFormControlHelp">
 						</div>
+						<div class="pb-3">
+							<label for="orderStatus" class="form-label">Trạng thái
+								đơn hàng</label> <select name="orderStatus" id="orderStatus"
+								class="form-control">
+								<option value="">-- Chọn trạng thái --</option>
+								<option value="Chờ xác nhận"
+									<c:if test="${orderStatus != null and orderStatus.name eq 'Chờ xác nhận'}">selected</c:if>>Chờ
+									xác nhận</option>
+								<option value="Đã xác nhận"
+									<c:if test="${orderStatus != null and orderStatus.name eq 'Đã xác nhận'}">selected</c:if>>Đã
+									xác nhận</option>
+								<option value="Đang giao"
+									<c:if test="${orderStatus != null and orderStatus.name eq 'Đang giao'}">selected</c:if>>Đang
+									giao</option>
+								<option value="Đã giao"
+									<c:if test="${orderStatus != null and orderStatus.name eq 'Đã giao'}">selected</c:if>>Đã
+									giao</option>
+								<option value="Đã huỷ"
+									<c:if test="${orderStatus != null and orderStatus.name eq 'Đã huỷ'}">selected</c:if>>Đã
+									huỷ</option>
+							</select>
+						</div>
+						<div class="pb-3">
+							<label for="descriptionStatusInput" class="form-label">Mô
+								tả trạng thái </label> <input name="descriptionStatus" type="text"
+								class="form-control" id="descriptionStatusInput" placeholder=""
+								aria-describedby="defaultFormControlHelp"
+								value="${orderStatus != null ? orderStatus.description : ''}">
+						</div>
+
+						<div class="pb-3">
+							<label class="form-label">Sản phẩm trong đơn hàng</label>
+							<table class="table table-bordered" id="productsTable">
+								<thead>
+									<tr>
+										<th>Sản phẩm</th>
+										<th>Giá gốc</th>
+										<th>Giá</th>
+										<th>Số lượng</th>
+										<th>Hành động</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:choose>
+										<c:when test="${not empty orderDetails}">
+											<c:forEach items="${orderDetails}" var="od">
+												<tr class="product-row">
+													<td><select name="productId"
+														class="form-control product-select">
+															<option value="">-- Chọn sản phẩm --</option>
+															<c:forEach items="${products}" var="p">
+																<option value="${p.productId}" data-price="${p.price}"
+																	data-pricesale="${p.priceSale}"
+																	<c:if test="${p.productId == od.productId}">selected</c:if>>${p.name}
+																	(ID:${p.productId})</option>
+															</c:forEach>
+													</select></td>
+													<td><input type="text"
+														class="form-control product-original-price" readonly
+														value="<fmt:formatNumber value='${od.price}' type='number' groupingUsed='true'/>" />
+
+														<input type="hidden" name="productOriginalPrice"
+														value="${od.price}" /></td>
+
+													<td><input type="text"
+														class="form-control product-sale-price" readonly
+														value="<fmt:formatNumber value='${od.price}' type='number' groupingUsed='true'/>" />
+
+														<input type="hidden" name="productPrice"
+														value="${od.price}" /></td>
+
+
+													<td><input name="productQuantity" type="text"
+														class="form-control" placeholder="VD: 2"
+														value="${od.quantity}" /></td>
+													<td><button type="button"
+															class="btn btn-danger btn-sm" onclick="removeRow(this)">Xóa</button></td>
+												</tr>
+											</c:forEach>
+										</c:when>
+										<c:otherwise>
+											<tr class="product-row">
+												<td><select name="productId"
+													class="form-control product-select">
+														<option value="">-- Chọn sản phẩm --</option>
+														<c:forEach items="${products}" var="p">
+															<option value="${p.productId}" data-price="${p.price}"
+																data-pricesale="${p.priceSale}">${p.name}
+																(ID:${p.productId})</option>
+														</c:forEach>
+												</select></td>
+												<td><input type="number"
+													class="form-control product-original-price" readonly /></td>
+												<td><input name="productPrice" type="number"
+													class="form-control product-sale-price" readonly /></td>
+												<td><input name="productQuantity" type="text"
+													class="form-control" placeholder="VD: 2" /></td>
+												<td><button type="button" class="btn btn-danger btn-sm"
+														onclick="removeRow(this)">Xóa</button></td>
+											</tr>
+										</c:otherwise>
+									</c:choose>
+								</tbody>
+							</table>
+							<button type="button" class="btn btn-secondary"
+								id="addProductBtn">Thêm sản phẩm</button>
+						</div>
+
+
 						<button type="submit" class="btn btn-primary mt-3">Cập
 							nhật</button>
 					</form>
 					<button onclick='history.back()' class="btn btn-secondary mt-3">Quay
 						lại</button>
 				</div>
-				<!-- Content wrapper -->
 			</div>
-			<!-- / Layout page -->
 		</div>
 
-		<!-- Overlay -->
 		<div class="layout-overlay layout-menu-toggle"></div>
 	</div>
-	<!-- / Layout wrapper -->
 
-
-
-	<!-- Core JS -->
-	<!-- build:js assets/vendor/js/core.js -->
-	<script src="/Java_5/adminPage/asset/vendor/libs/jquery/jquery.js"></script>
-	<script src="/Java_5/adminPage/asset/vendor/libs/popper/popper.js"></script>
-	<script src="/Java_5/adminPage/asset/vendor/js/bootstrap.js"></script>
-	<script
-		src="/Java_5/adminPage/asset/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-
-	<script src="/Java_5/adminPage/asset/vendor/js/menu.js"></script>
-	<!-- endbuild -->
-
-	<!-- Vendors JS -->
-	<script
-		src="/Java_5/adminPage/asset/vendor/libs/apex-charts/apexcharts.js"></script>
-
-	<!-- Main JS -->
-	<script src="/Java_5/adminPage/asset/js/main.js"></script>
-
-	<!-- Page JS -->
-	<script src="/Java_5/adminPage/asset/js/dashboards-analytics.js"></script>
-
-	<!-- Place this tag in your head or just before your close body tag. -->
-	<script async defer src="https://buttons.github.io/buttons.js"></script>
+	<jsp:include page="/adminPage/footer.jsp" />
 </body>
 </html>

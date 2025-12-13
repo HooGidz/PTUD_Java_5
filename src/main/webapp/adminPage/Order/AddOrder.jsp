@@ -1,12 +1,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="java.util.List, dao.DAO, db.tbl_Product"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 </head>
 <body>
+
 	<!-- Layout wrapper -->
 	<div class="layout-wrapper layout-content-navbar">
 		<div class="layout-container">
@@ -157,6 +159,59 @@
 								class="form-control" id="defaultFormControlInput" placeholder=""
 								aria-describedby="defaultFormControlHelp">
 						</div>
+						<!-- Thêm trường trạng thái đơn hàng -->
+						<div class="pb-3">
+							<label for="orderStatus" class="form-label">Trạng thái đơn hàng</label>
+							<select name="orderStatus" id="orderStatus" class="form-control">
+								<option>-- Chọn trạng thái --</option>
+								<option value="Chờ xác nhận">Chờ xác nhận</option>
+								<option value="Đã xác nhận">Đã xác nhận</option>
+								<option value="Đang giao">Đang giao</option>
+								<option value="Đã giao">Đã giao</option>
+								<option value="Đã huỷ">Đã huỷ</option>
+							</select>
+						</div>
+						<div class="pb-3">
+							<label for="defaultFormControlInput" class="form-label">Mô tả trạng thái
+							</label> <input name="descriptionStatus" type="text"
+								class="form-control" id="defaultFormControlInput" placeholder=""
+								aria-describedby="defaultFormControlHelp">
+						</div>
+
+						<!-- Bảng nhập nhiều sản phẩm (sử dụng select để chọn) -->
+						<div class="pb-3">
+							<label class="form-label">Sản phẩm trong đơn hàng</label>
+							<table class="table table-bordered" id="productsTable">
+								<thead>
+									<tr>
+										<th>Sản phẩm</th>
+										<th>Giá gốc</th>
+										<th>Giá sale</th>
+										<th>Số lượng</th>
+										<th>Hành động</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="product-row">
+										<td>
+											<select name="productId" class="form-control product-select">
+												<option value="">-- Chọn sản phẩm --</option>
+											
+												<c:forEach items="${products}" var="p">
+                                                    <option value="${p.productId}" data-price="${p.price}" data-pricesale="${p.priceSale}">${p.name} (ID:${p.productId})</option>
+												</c:forEach>
+											</select>
+										</td>
+										<td><input type="number" class="form-control product-original-price" readonly /></td>
+										<td><input name="productPrice" type="number" class="form-control product-sale-price" readonly /></td>
+										<td><input name="productQuantity" type="text" class="form-control" placeholder="VD: 2" /></td>
+										<td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Xóa</button></td>
+									</tr>
+								</tbody>
+							</table>
+							<button type="button" class="btn btn-secondary" id="addProductBtn">Thêm sản phẩm</button>
+						</div>
+
 						<button type="submit" class="btn btn-primary mt-3">Thêm
 							mới</button>
 					</form>
@@ -171,32 +226,7 @@
 		<!-- Overlay -->
 		<div class="layout-overlay layout-menu-toggle"></div>
 	</div>
-	<!-- / Layout wrapper -->
+	<jsp:include page="/adminPage/footer.jsp" />
 
-
-
-	<!-- Core JS -->
-	<!-- build:js assets/vendor/js/core.js -->
-	<script src="/Java_5/adminPage/asset/vendor/libs/jquery/jquery.js"></script>
-	<script src="/Java_5/adminPage/asset/vendor/libs/popper/popper.js"></script>
-	<script src="/Java_5/adminPage/asset/vendor/js/bootstrap.js"></script>
-	<script
-		src="/Java_5/adminPage/asset/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-
-	<script src="/Java_5/adminPage/asset/vendor/js/menu.js"></script>
-	<!-- endbuild -->
-
-	<!-- Vendors JS -->
-	<script
-		src="/Java_5/adminPage/asset/vendor/libs/apex-charts/apexcharts.js"></script>
-
-	<!-- Main JS -->
-	<script src="/Java_5/adminPage/asset/js/main.js"></script>
-
-	<!-- Page JS -->
-	<script src="/Java_5/adminPage/asset/js/dashboards-analytics.js"></script>
-
-	<!-- Place this tag in your head or just before your close body tag. -->
-	<script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
 </html>

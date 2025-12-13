@@ -1,7 +1,6 @@
 package user;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -14,7 +13,7 @@ import dao.DAO;
 import db.tbl_Collection;
 import db.tbl_Menu;
 
-@WebServlet("/collections")
+@WebServlet("/bo-suu-tap")
 public class CollectionController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
