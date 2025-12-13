@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
 </head>
 <body>
 	<!-- Layout wrapper -->
@@ -107,100 +106,59 @@
 				<!-- / Navbar -->
 
 				<!-- Content wrapper -->
-
-				<div class="p-2">
-					<h1>Sửa Thông Tin Tài Khoản</h1>
+				<div class="p-4">
+					<h2>Quản lý phản hồi</h2>
 				</div>
-				<div style="padding: 0px 30px;">
-					<form
-						action="${pageContext.request.contextPath}/AccountController?action=editsubmit"
-						method="post">
-						<input type="hidden" name="accountId"
-							value="${accountDetail.accountId}">
 
-						<div class="pb-3">
-							<label class="form-label">Tên đăng nhập (Username)</label> <input
-								value="${accountDetail.username}" name="username" type="text"
-								class="form-control" required>
-						</div>
+				<div class="table-responsive text-nowrap">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>STT</th>
+								<th>Tên</th>
+								<th>Số điện thoại</th>
+								<th>Email</th>
+								<th>Tin nhắn</th>
+							</tr>
+						</thead>
+						<tbody class="table-border-bottom-0">
+							<c:forEach items="${listContact}" var="c" varStatus="status">
+								<tr>
+									<td>${status.count}</td>
+									<td><strong>${c.name}</strong></td>
+									<td>${c.phone}</td>
+									<td>${c.email}</td>
+									<td>${c.message}</td>
+									<td>
+										<div class="dropdown">
+											<button type="button"
+												class="btn p-0 dropdown-toggle hide-arrow"
+												data-bs-toggle="dropdown">
+												<i class="bx bx-dots-vertical-rounded"></i>
+											</button>
 
-						<div class="pb-3">
-							<label class="form-label">Mật khẩu (Password)</label> <input
-								name="password" type="password" class="form-control"
-								placeholder="Để trống nếu không muốn thay đổi mật khẩu">
-						</div>
-
-						<div class="pb-3">
-							<label class="form-label">Họ và tên</label> <input
-								value="${accountDetail.fullname}" name="fullName" type="text"
-								class="form-control" required>
-						</div>
-
-						<div class="pb-3">
-							<label class="form-label">Số điện thoại</label> <input
-								value="${accountDetail.phone}" name="phone" type="text"
-								class="form-control">
-						</div>
-
-						<div class="pb-3">
-							<label class="form-label">Email</label> <input
-								value="${accountDetail.email}" name="email" type="email"
-								class="form-control">
-						</div>
-
-						<div class="pb-3">
-							<label class="form-label">Ngày sinh (Birthday)</label> <input
-								value="${accountDetail.birthday}" name="birthday" type="date"
-								class="form-control">
-						</div>
-
-						<div class="pb-3">
-							<label class="form-label">Đường dẫn Avatar</label> <input
-								value="${accountDetail.avatar}" name="avatar" type="text"
-								class="form-control">
-						</div>
-
-						<div class="pb-3">
-							<label class="form-label">Vai trò</label> <select name="roleId"
-								class="form-select">
-								<option value="1" ${accountDetail.roleId == 1 ? "selected" : ""}>Quản
-									trị viên</option>
-								<option value="2" ${accountDetail.roleId == 2 ? "selected" : ""}>Khách
-									hàng</option>
-								<option value="3" ${accountDetail.roleId == 3 ? "selected" : ""}>Nhân
-									viên</option>
-								<option value="4" ${accountDetail.roleId == 4 ? "selected" : ""}>Kế
-									toán</option>
-								<option value="5" ${accountDetail.roleId == 5 ? "selected" : ""}>Quản
-									lý kho</option>
-							</select>
-						</div>
-
-						<div class="pb-3">
-							<label class="form-label">Trạng thái</label> <select
-								name="isActive" class="form-select">
-								<option value="true" ${accountDetail.isactive ? 'selected' : ''}>Hoạt
-									động</option>
-								<option value="false"
-									${!accountDetail.isactive ? 'selected' : ''}>Ngừng
-									hoạt động</option>
-							</select>
-						</div>
-
-						<button type="submit" class="btn btn-primary mt-3">Cập
-							nhật Tài khoản</button>
-					</form>
+											<div class="dropdown-menu">
+												<a href="Contact?action=edit&id=${c.contatcId}" class="dropdown-item"> <i
+													class="bx bx-edit-alt me-1"></i> Sửa
+												</a> <a onclick="return confirm('Bạn có chắc chắn muốn xoá?')"
+													href="AccountController?action=delete&id=${acc.accountId}" class="dropdown-item"> <i
+													class="bx bx-trash me-1"></i> Xoá
+												</a>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
 				</div>
-				<button onclick='history.back()' class="btn btn-secondary mt-3">Quay
-					lại</button>
+				<!-- Content wrapper -->
 			</div>
-			<!-- Content wrapper -->
+			<!-- / Layout page -->
 		</div>
-		<!-- / Layout page -->
-	</div>
 
-	<!-- Overlay -->
-	<div class="layout-overlay layout-menu-toggle"></div>
+		<!-- Overlay -->
+		<div class="layout-overlay layout-menu-toggle"></div>
 	</div>
 	<!-- / Layout wrapper -->
 

@@ -42,12 +42,12 @@
 						<h3>
 							Welcome Back ! <br> Please Sign in now
 						</h3>
-						<form class="row contact_form" action="user" method="post"
+						<form class="row contact_form" action="/Java_5/LoginController" method="post"
 							novalidate="novalidate">
 							<input type="hidden" name="action" value="login">
 							<div class="col-md-12 form-group p_star">
 								<input type="text" class="form-control" id="name" name="name"
-									value="" placeholder="Username hoặc Email">
+									value="" placeholder="Username ">
 							</div>
 							<div class="col-md-12 form-group p_star">
 								<input type="password" class="form-control" id="password"

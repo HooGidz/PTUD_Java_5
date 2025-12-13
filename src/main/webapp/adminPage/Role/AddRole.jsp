@@ -109,98 +109,36 @@
 				<!-- Content wrapper -->
 
 				<div class="p-2">
-					<h1>Sửa Thông Tin Tài Khoản</h1>
+					<h1>Thêm quyền</h1>
 				</div>
 				<div style="padding: 0px 30px;">
-					<form
-						action="${pageContext.request.contextPath}/AccountController?action=editsubmit"
-						method="post">
-						<input type="hidden" name="accountId"
-							value="${accountDetail.accountId}">
 
+					<form action="RoleController?action=addsubmit" method="post">
 						<div class="pb-3">
-							<label class="form-label">Tên đăng nhập (Username)</label> <input
-								value="${accountDetail.username}" name="username" type="text"
-								class="form-control" required>
+							<label for="defaultFormControlInput" class="form-label">Tên
+								quyền</label> <input name="rolename" type="text" class="form-control"
+								id="defaultFormControlInput" placeholder="Tên quyền"
+								aria-describedby="defaultFormControlHelp">
 						</div>
-
 						<div class="pb-3">
-							<label class="form-label">Mật khẩu (Password)</label> <input
-								name="password" type="password" class="form-control"
-								placeholder="Để trống nếu không muốn thay đổi mật khẩu">
+							<label for="defaultFormControlInput1" class="form-label">Chức 
+							năng</label> <input name="description" type="text" class="form-control"
+								id="defaultFormControlInput1" placeholder="Mô tả"
+								aria-describedby="defaultFormControlHelp">
 						</div>
-
-						<div class="pb-3">
-							<label class="form-label">Họ và tên</label> <input
-								value="${accountDetail.fullname}" name="fullName" type="text"
-								class="form-control" required>
-						</div>
-
-						<div class="pb-3">
-							<label class="form-label">Số điện thoại</label> <input
-								value="${accountDetail.phone}" name="phone" type="text"
-								class="form-control">
-						</div>
-
-						<div class="pb-3">
-							<label class="form-label">Email</label> <input
-								value="${accountDetail.email}" name="email" type="email"
-								class="form-control">
-						</div>
-
-						<div class="pb-3">
-							<label class="form-label">Ngày sinh (Birthday)</label> <input
-								value="${accountDetail.birthday}" name="birthday" type="date"
-								class="form-control">
-						</div>
-
-						<div class="pb-3">
-							<label class="form-label">Đường dẫn Avatar</label> <input
-								value="${accountDetail.avatar}" name="avatar" type="text"
-								class="form-control">
-						</div>
-
-						<div class="pb-3">
-							<label class="form-label">Vai trò</label> <select name="roleId"
-								class="form-select">
-								<option value="1" ${accountDetail.roleId == 1 ? "selected" : ""}>Quản
-									trị viên</option>
-								<option value="2" ${accountDetail.roleId == 2 ? "selected" : ""}>Khách
-									hàng</option>
-								<option value="3" ${accountDetail.roleId == 3 ? "selected" : ""}>Nhân
-									viên</option>
-								<option value="4" ${accountDetail.roleId == 4 ? "selected" : ""}>Kế
-									toán</option>
-								<option value="5" ${accountDetail.roleId == 5 ? "selected" : ""}>Quản
-									lý kho</option>
-							</select>
-						</div>
-
-						<div class="pb-3">
-							<label class="form-label">Trạng thái</label> <select
-								name="isActive" class="form-select">
-								<option value="true" ${accountDetail.isactive ? 'selected' : ''}>Hoạt
-									động</option>
-								<option value="false"
-									${!accountDetail.isactive ? 'selected' : ''}>Ngừng
-									hoạt động</option>
-							</select>
-						</div>
-
-						<button type="submit" class="btn btn-primary mt-3">Cập
-							nhật Tài khoản</button>
+						<button type="submit" class="btn btn-primary mt-3">Thêm
+							mới</button>
 					</form>
+					<button onclick='history.back()' class="btn btn-secondary mt-3">Quay
+						lại</button>
 				</div>
-				<button onclick='history.back()' class="btn btn-secondary mt-3">Quay
-					lại</button>
+				<!-- Content wrapper -->
 			</div>
-			<!-- Content wrapper -->
+			<!-- / Layout page -->
 		</div>
-		<!-- / Layout page -->
-	</div>
 
-	<!-- Overlay -->
-	<div class="layout-overlay layout-menu-toggle"></div>
+		<!-- Overlay -->
+		<div class="layout-overlay layout-menu-toggle"></div>
 	</div>
 	<!-- / Layout wrapper -->
 

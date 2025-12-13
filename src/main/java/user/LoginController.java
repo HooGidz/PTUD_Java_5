@@ -44,10 +44,10 @@ public class LoginController extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.removeAttribute("user"); // Xóa đối tượng người dùng khỏi Session
 			session.invalidate(); // Hủy toàn bộ Session
-			response.sendRedirect("HomeController"); // Chuyển hướng về trang chủ
+			response.sendRedirect("userPage/login.jsp"); // Chuyển hướng về trang chủ
 		} else {
 			// Mặc định, chuyển hướng đến trang Hồ sơ (Profile) hoặc trang chủ
-			response.sendRedirect("HomeController");
+			response.sendRedirect("userPage/login.jsp"); // Chuyển hướng về trang đăng nhập
 		}
 	}
 
@@ -75,12 +75,12 @@ public class LoginController extends HttpServlet {
 	private void handleLogin(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// Lấy giá trị từ form (tên biến 'name' và 'password' trong login.jsp)
-		String usernameOrEmail = request.getParameter("name");
+		String username = request.getParameter("name");
 		String password = request.getParameter("password");
 
 		// 1. Gọi DAO để kiểm tra người dùng
 		// (tbl_account phải là class tbl_Account, cần thống nhất tên)
-		tbl_Account account = dao.login(usernameOrEmail, password);
+		tbl_Account account = dao.login(username, password);
 
 		if (account != null) {
 			// 2. Đăng nhập thành công: Lưu vào Session
@@ -88,12 +88,12 @@ public class LoginController extends HttpServlet {
 			session.setAttribute("account", account); // Lưu đối tượng account vào session
 
 			// Chuyển hướng về trang chủ
-			response.sendRedirect("HomeController");
+			response.sendRedirect("/Java_5/HomeCotronller");
 		} else {
 			// 3. Đăng nhập thất bại: Quay lại trang login với thông báo lỗi
 			request.setAttribute("errorMessage", "Tên đăng nhập/Mật khẩu không đúng.");
 			// Chuyển hướng nội bộ để giữ lại errorMessage
-			request.getRequestDispatcher("login.jsp").forward(request, response);
+			request.getRequestDispatcher("userPage/login.jsp").forward(request, response);
 		}
 	}
 

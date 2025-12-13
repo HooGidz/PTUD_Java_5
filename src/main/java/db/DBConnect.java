@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnect {
-	private final String serverName = "LAPTOP-SFNTDCJC\\ANHTAI";
+	private final String serverName = "ADMIN-PC\\MSSQLSERVER01";
     private final String dbName = "Web_NoiThat";            
     private final String portNumber = "1433";            // Cổng SQL Server
     private final String userID = "sa"; 

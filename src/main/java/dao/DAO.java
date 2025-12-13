@@ -26,6 +26,7 @@ import db.tbl_ProductCategory;
 import db.tbl_Blog;
 import db.tbl_Collection;
 import db.tbl_BlogComment;
+import db.tbl_Role;
 
 public class DAO {
 	Connection conn = null;
@@ -1303,6 +1304,67 @@ public class DAO {
 		return list;
 	}
 
+	public tbl_Contact getContactById(String contactId) {
+		String query = "select * from tbl_Contact where Contact_ID = ?";
+		try {
+			conn = new DBConnect().getConnection();
+			ps = conn.prepareStatement(query);
+			ps.setString(1, contactId);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				return new tbl_Contact(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+						rs.getString(5), rs.getBoolean(6), rs.getDate(7), rs.getString(8));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				if (ps != null)
+					ps.close();
+			} catch (Exception e) {
+			}
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+			}
+		}
+		return null;
+
+	}
+	public void editContact(String name, String phone, String email, String message, String isread, String createdDate,
+			 String createdBy, String id) {
+
+		String query = "UPDATE tbl_Contact SET " + "Name = ?, Phone = ?, Email = ?, Message = ?, IsRead = ?, "
+				+ "CreatedDate = ?, CreatedBy = ?"
+				+ "WHERE Contact_ID = ?";
+
+		try {
+			conn = new DBConnect().getConnection();
+			ps = conn.prepareStatement(query);
+
+			ps.setString(1, name);
+			ps.setString(2, phone);
+			ps.setString(3, email);
+			ps.setString(4, message);
+			ps.setString(5,isread);
+			ps.setString(6, createdDate);
+			ps.setString(7, createdBy);
+			ps.setString(8, id);
+			ps.executeUpdate();
+
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+	}
 	// ======================= BLOG CHO NGƯỜI DÙNG =======================
 	public List<tbl_Blog> getAllBlog() {
 		List<tbl_Blog> list = new ArrayList<>();
@@ -1775,4 +1837,153 @@ public class DAO {
 		}
 		return null;
 	}
+	
+	//======================= Role =======================
+	public List<tbl_Role> getAllRole() {
+		List<tbl_Role> list = new ArrayList<>();
+		String sql = "select * from tbl_Role";
+		try {
+			conn = new DBConnect().getConnection();
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				list.add(new tbl_Role(rs.getInt(1), rs.getString(2),rs.getString(3)));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		return list;
+
+	}
+	public void addRole(String rolename, String description) {
+
+		String query = "INSERT INTO tbl_Role " + "(RoleName, Description)"
+				+ "VALUES (?, ?)";
+
+		try {
+			conn = new DBConnect().getConnection();
+			ps = conn.prepareStatement(query);
+
+			// Set parameters
+			ps.setString(1, rolename);
+			ps.setString(2, description);
+
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public tbl_Role getRoleDetail(String roleId) {
+		String query = "select * from tbl_Role where Role_ID = ?";
+		try {
+			conn = new DBConnect().getConnection();
+			ps = conn.prepareStatement(query);
+			ps.setString(1, roleId);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				return new tbl_Role(rs.getInt(1), rs.getString(2), rs.getString(3));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				if (ps != null)
+					ps.close();
+			} catch (Exception e) {
+			}
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+			}
+		}
+		return null;
+
+	}
+	public tbl_Role getRoleById(String roleId) {
+		String query = "select * from tbl_Role where Role_ID = ?";
+		try {
+			conn = new DBConnect().getConnection();
+			ps = conn.prepareStatement(query);
+			ps.setString(1, roleId);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				return new tbl_Role(rs.getInt(1), rs.getString(2), rs.getString(3));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				if (ps != null)
+					ps.close();
+			} catch (Exception e) {
+			}
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+			}
+		}
+		return null;
+
+	}
+	public void editRole(String rolename, String description, String id) {
+
+		String query = "UPDATE tbl_Role SET " + "RoleName = ?, Description = ?"
+				+ "WHERE Role_ID = ?";
+
+		try {
+			conn = new DBConnect().getConnection();
+			ps = conn.prepareStatement(query);
+
+			ps.setString(1, rolename);
+			ps.setString(2, description);
+			ps.setString(3, id);
+			ps.executeUpdate();
+
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+	}
+
+	public void deleteRole(String id) {
+		String query = "delete from tbl_Role where Role_ID = ?";
+		try {
+			conn = new DBConnect().getConnection();
+			ps = conn.prepareStatement(query);
+			ps.setString(1, id);
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+			} catch (Exception e) {
+			}
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+			}
+		}
+	}
 }
+
